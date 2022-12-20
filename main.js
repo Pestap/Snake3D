@@ -16,12 +16,12 @@ camera.position.setZ(30);
 
 renderer.render(scene,camera);
 
-const geometry = new THREE.TorusGeometry(10,3,16,100);
+const geometry = new THREE.BoxGeometry(1,1,1);
 
 const material = new THREE.MeshStandardMaterial({color: 0x23ff0a});
 
-const torus = new THREE.Mesh(geometry, material);
-scene.add(torus);
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
 const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5,2,10);
@@ -38,13 +38,21 @@ scene.add(gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'w'){
+    cube.position.z -= 0.3;
+  }else if(e.key === 's'){
+    cube.position.z += 0.3;
+  }else if(e.key === 'a'){
+    cube.position.x -= 0.3;
+  }else if(e.key === 'd'){
+    cube.position.x += 0.3;
+
+  }
+});
 
 function animate(){
   requestAnimationFrame(animate);
-
-  torus.rotation.x += 0.01;
-  torus.rotation.y += 0.01;
-  torus.rotation.z += 0.01;
   renderer.render(scene, camera)
 
   controls.update()
