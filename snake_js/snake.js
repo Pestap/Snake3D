@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 export class Snake{
     constructor(size=0, start_position=[0,0,0], part_list = []){
-        this.size = size;
+        this.size = part_list.length;
         this.start_position = start_position;
         this.part_list = part_list;
         // if list not empty set start position of first element to (0,0,0)
@@ -33,7 +33,8 @@ export class Snake{
         , new THREE.MeshStandardMaterial({color: 0x23ffba}) ) )
 
         this.part_list.push(newSnakePart);
-        
+        this.size += 1;
+
         this.draw(scene);
         
         // set the position of new cube

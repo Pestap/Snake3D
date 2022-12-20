@@ -62,6 +62,8 @@ document.addEventListener('keydown', (e) => {
   }
 
 });
+// move evert 0.5 s
+setInterval(function () {snake.move('w')}, 500);
 
 function animate(){
   requestAnimationFrame(animate);
