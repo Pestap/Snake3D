@@ -2,13 +2,13 @@ import { SnakePart } from "./snakePart";
 import * as THREE from 'three';
 
 export class Snake{
-    constructor(size=0, start_position=[0,0,0], part_list = []){
+    constructor(size=0, start_position=new THREE.Vector3( 0, 0, 0 ), part_list = []){
         this.size = part_list.length;
         this.start_position = start_position;
         this.part_list = part_list;
         // if list not empty set start position of first element to (0,0,0)
         if(part_list.length > 0){
-            part_list.at(0).set_position(start_position[0], start_position[1], start_position[2]);
+            part_list.at(0).setPosition(start_position);
         }
     }
 
@@ -20,9 +20,15 @@ export class Snake{
     move(direction){
         // moving from the end of the list because movement direction is dicated by th head
         let head = this.part_list.at(0);
+
         for (let i = this.part_list.length-1 ; i >= 1; i--){
-            //console.log(this.part_list.at(i).cube.position);
-            this.part_list.at(i).set_position(this.part_list.at(i-1).cube.position.x, this.part_list.at(i-1).cube.position.y, this.part_list.at(i-1).cube.position.z);
+            let currentElement = this.part_list.at(i);
+            let previousElement = this.part_list.at(i-1);
+            // copy for subtracting (calculating the direction of travel)
+            let prevElementPosition = previousElement.getPosition().clone();
+            currentElement.direction = prevElementPosition.sub(currentElement.getPosition());
+
+            currentElement.setPosition(previousElement.getPosition());
         }
 
         head.move(direction);
@@ -37,8 +43,15 @@ export class Snake{
 
         this.draw(scene);
         
-        // set the position of new cube
-        this.part_list.at(-1).set_position(this.part_list.at(-2).cube.position.x,this.part_list.at(-2).cube.position.y,this.part_list.at(-2).cube.position.z+1)
+        // set the position of new cube based on direction of movement of last cube
+        let prevPartPosition = this.part_list.at(-2).getPosition().clone();
+        let prevPartDirection = this.part_list.at(-2).direction.clone();
+        // calculate position of new cube by subtracting the direction from previous position (new cube is added on the opposite side)
+        let newPartPosition = prevPartPosition.sub(prevPartDirection);
+
+        // set new cube position and direction of movement
+        this.part_list.at(-1).setPosition(newPartPosition);
+        this.part_list.at(-1).direction = prevPartDirection;
     }
 
 }

@@ -30,12 +30,12 @@ const snakePart4 = new SnakePart(1, new THREE.Mesh(geometry, new THREE.MeshStand
 
 //snakePart.draw(scene);
 //snakePart2.draw(scene);
-snakePart2.set_position(0,0,1);
-snakePart3.set_position(0,0,2);
-snakePart4.set_position(0,0,3);
+snakePart2.setPosition(new THREE.Vector3( 0, 0,1 ));
+snakePart3.setPosition(new THREE.Vector3( 0, 0,2 ));
+snakePart4.setPosition(new THREE.Vector3( 0, 0,3 ));
 
 
-const snake = new Snake(0, [0,0,0], [snakePart, snakePart2, snakePart3, snakePart4]);
+const snake = new Snake(0, new THREE.Vector3( 0, 0,0 ), [snakePart, snakePart2, snakePart3, snakePart4]);
 snake.draw(scene);
 
 
@@ -63,7 +63,7 @@ document.addEventListener('keydown', (e) => {
 
 });
 // move evert 0.5 s
-setInterval(function () {snake.move('w')}, 500);
+setInterval(function () {snake.move('w')}, 1500);
 
 function animate(){
   requestAnimationFrame(animate);
