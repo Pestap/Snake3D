@@ -33,7 +33,7 @@ export class World{
         this.#camera.position.setZ(30);
 
 
-        this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),4,20);
+        this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),4);
 
 
         this.box = new Box(20);
@@ -58,7 +58,7 @@ export class World{
 
         
     }
-    checkForCollisions(){        
+    checkForCollisionsWithFruits(){        
         for(let i =0; i< this.fruits.length; i++){
             if(this.fruits.at(i).getPosition().equals(this.snake.part_list.at(0).getPosition())){
                 //remove fruit
@@ -70,7 +70,7 @@ export class World{
                 if(this.snake.size % 5 == 0){
                     this.interval -= 1;
                 }
-                
+
                 // place new fruit
                 // ranodmize coords until valid:
                 while(true){
@@ -100,6 +100,18 @@ export class World{
         }
 
     }
+
+    checkForSnakeCollisions(){
+        //check if snake outside the box
+        const head = this.snake.part_list.at(0);
+        if(Math.abs(head.getPosition().x) > this.box.size/2
+         || Math.abs(head.getPosition().y) > this.box.size/2
+         || Math.abs(head.getPosition().z) > this.box.size/2
+        ){
+            this.stop();
+        }
+    }
+
     render(){
         this.#renderer.render();
     }

@@ -25,8 +25,11 @@ export class Loop {
             this.world.snake.move_forward();
             //draw fruits
             this.world.fruits.forEach(e => e.draw(this.scene));
-            //check collisions
-            this.world.checkForCollisions();
+            //check if any fruits eaten
+            this.world.checkForCollisionsWithFruits();
+            //check if collision inside snake
+            this.world.checkForSnakeCollisions();
+
             counter = 0;
         }
         counter++;

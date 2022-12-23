@@ -3,10 +3,9 @@ import * as THREE from 'three';
 
 export class Snake{
     part_list = [];
-    constructor(start_position, size, box_size){
+    constructor(start_position, size){
         this.size = size
         this.start_position = start_position;
-        this.box_size = box_size;
         this.geometry = new THREE.BoxGeometry(1,1,1);
         this.material = new THREE.MeshStandardMaterial({color: 0x23ff0a});
         for(let i = 0; i< size; i++){
@@ -33,11 +32,6 @@ export class Snake{
         }
 
         head.move('w');
-        if(Math.abs(head.getPosition().x) > this.box_size/2
-         || Math.abs(head.getPosition().y) > this.box_size/2
-         || Math.abs(head.getPosition().z) > this.box_size/2){
-            this.turn('a');
-        }
     }
 
     turn(direction){
