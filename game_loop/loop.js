@@ -21,7 +21,12 @@ export class Loop {
     }
     tick(){
         if(counter % this.world.interval=== 0){
+            // snake movement
             this.world.snake.move_forward();
+            //draw fruits
+            this.world.fruits.forEach(e => e.draw(this.scene));
+            //check collisions
+            this.world.checkForCollisions();
             counter = 0;
         }
         counter++;

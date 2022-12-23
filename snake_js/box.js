@@ -4,6 +4,7 @@ export class Box{
     constructor(size, middle_position = new THREE.Vector3(0,0,0)){
         const half = size/2 + 0.5;
         this.points = [];
+        this.size = size;
         // maybe find better way later
         this.points.push(new THREE.Vector3(half, half, -half));
         this.points.push(new THREE.Vector3(half, half, half));

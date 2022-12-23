@@ -9,10 +9,9 @@ export class Snake{
         this.box_size = box_size;
         this.geometry = new THREE.BoxGeometry(1,1,1);
         this.material = new THREE.MeshStandardMaterial({color: 0x23ff0a});
-
         for(let i = 0; i< size; i++){
             this.part_list.push(new SnakePart(new THREE.Mesh(this.geometry, this.material),new THREE.Vector3( 0, 0, i)));
-            //this.material.color += 100;
+ 
         }
     }
 
@@ -34,9 +33,9 @@ export class Snake{
         }
 
         head.move('w');
-        if(Math.abs(head.getPosition().x) === this.box_size/2
-         || Math.abs(head.getPosition().y) === this.box_size/2
-         || Math.abs(head.getPosition().z) === this.box_size/2){
+        if(Math.abs(head.getPosition().x) > this.box_size/2
+         || Math.abs(head.getPosition().y) > this.box_size/2
+         || Math.abs(head.getPosition().z) > this.box_size/2){
             this.turn('a');
         }
     }
@@ -46,23 +45,22 @@ export class Snake{
     }
 
     addPart(scene){
-        let newSnakePart = new SnakePart(this,new THREE.Mesh(new THREE.BoxGeometry(1,1,1)
-        , new THREE.MeshStandardMaterial({color: 0x23ffba}) ) )
-
-        this.part_list.push(newSnakePart);
         this.size += 1;
 
-        this.draw(scene);
-        
         // set the position of new cube based on direction of movement of last cube
-        let prevPartPosition = this.part_list.at(-2).getPosition().clone();
-        let prevPartDirection = this.part_list.at(-2).direction.clone();
+        let prevPartPosition = this.part_list.at(-1).getPosition().clone();
+        let prevPartDirection = this.part_list.at(-1).direction.clone();
         // calculate position of new cube by subtracting the direction from previous position (new cube is added on the opposite side)
         let newPartPosition = prevPartPosition.sub(prevPartDirection);
-
+ 
         // set new cube position and direction of movement
-        this.part_list.at(-1).setPosition(newPartPosition);
-        this.part_list.at(-1).direction = prevPartDirection;
+       
+        let newSnakePart = new SnakePart(new THREE.Mesh(new THREE.BoxGeometry(1,1,1)
+        , this.material),newPartPosition );
+        newSnakePart.direction = prevPartDirection;
+
+        this.part_list.push(newSnakePart);
+        this.draw(scene);
     }
 
 }

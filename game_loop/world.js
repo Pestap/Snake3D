@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Loop } from './loop.js';
 import { Snake } from '../snake_js/snake.js';
 import { Box } from '../snake_js/box.js';
-
+import { Fruit } from '../snake_js/fruit';
 
 export class World{
     #camera;
@@ -12,6 +12,7 @@ export class World{
     #loop;
     #controls;
     snake;
+    fruits = [];
     box;
     interval=30;
 
@@ -39,11 +40,14 @@ export class World{
         this.box.draw(this.#scene);
         this.snake.draw(this.#scene);
 
+        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 )));
+
+
         document.addEventListener('keydown', (e) => {
             if(e.key === 'w'){
               this.snake.move_forward();
             }else if(e.key === ' '){
-              this.snake.addPart(scene);
+              this.snake.addPart(this.#scene);
             }else if(e.key === 'a' || e.key === 'd' || e.key === 's'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
@@ -54,9 +58,47 @@ export class World{
 
         
     }
-    checkForCollisions(){
+    checkForCollisions(){        
+        for(let i =0; i< this.fruits.length; i++){
+            if(this.fruits.at(i).getPosition().equals(this.snake.part_list.at(0).getPosition())){
+                //remove fruit
+                this.snake.addPart(this.#scene);
+                this.#scene.remove(this.fruits.at(i).cube);
+                this.fruits.splice(i,1);
 
-        
+                //speed the game up
+                if(this.snake.size % 5 == 0){
+                    this.interval -= 1;
+                }
+                
+                // place new fruit
+                // ranodmize coords until valid:
+                while(true){
+                    const max = this.box.size/2;
+                    const min = -this.box.size/2;
+
+                    let x = Math.floor(Math.random() * (max-min) + min);
+                    //let y =  Math.floor(Math.random() * (max-min) + min);
+                    let z = Math.floor(Math.random() * (max-min) + min);
+                    let y = 0;
+
+                    const fruit_position = new THREE.Vector3(x,y,z);
+                    //check if valid
+                    let is_valid = true;
+                    this.snake.part_list.forEach(part => {
+                        if(fruit_position.equals(part.getPosition())){
+                            is_valid = false;
+                        }
+                    })
+                    if(is_valid){
+                        this.fruits.push(new Fruit(fruit_position));
+                        this.fruits.at(-1).draw(this.#scene);
+                        break;
+                    }
+                }
+            }
+        }
+
     }
     render(){
         this.#renderer.render();
