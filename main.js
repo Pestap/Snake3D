@@ -1,8 +1,9 @@
 import './style.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { SnakePart } from './snake_js/snakePart.js'
-import { Snake } from './snake_js/snake.js'
+import { SnakePart } from './snake_js/snakePart.js';
+import { Snake } from './snake_js/snake.js';
+import { Box } from './snake_js/box.js';
 
 const scene = new THREE.Scene();
 
@@ -34,23 +35,26 @@ snakePart2.setPosition(new THREE.Vector3( 0, 0,1 ));
 snakePart3.setPosition(new THREE.Vector3( 0, 0,2 ));
 snakePart4.setPosition(new THREE.Vector3( 0, 0,3 ));
 
-
-const snake = new Snake(new THREE.Vector3( 0, 0,0 ), [snakePart, snakePart2, snakePart3, snakePart4]);
+const box = new Box(20);
+box.draw(scene);
+const snake = new Snake(new THREE.Vector3( 0, 0,0 ), [snakePart, snakePart2, snakePart3, snakePart4],20);
 snake.draw(scene);
 
 
-const pointLight = new THREE.PointLight(0xffffff);
+/*const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5,2,10);
-scene.add(pointLight);
-
+scene.add(pointLight); 
+*/
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(ambientLight);
 
 
-const lightHelper = new THREE.PointLightHelper(pointLight);
-const gridHelper = new THREE.GridHelper(200,5)
-scene.add(lightHelper);
-scene.add(gridHelper);
+//const lightHelper = new THREE.PointLightHelper(pointLight);
+//scene.add(lightHelper);
+
+
+
+
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -61,6 +65,8 @@ document.addEventListener('keydown', (e) => {
     snake.addPart(scene);
   }else if(e.key === 'a' || e.key === 'd' || e.key === 's'){
     snake.turn(e.key);
+  }else if(e.key === 'p'){
+    //snake.part_list.at(0).cube.position.y -= 3;
   }
 
 });

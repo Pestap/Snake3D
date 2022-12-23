@@ -2,13 +2,16 @@ import { SnakePart } from "./snakePart";
 import * as THREE from 'three';
 
 export class Snake{
-    constructor(start_position=new THREE.Vector3( 0, 0, 0 ), part_list = []){
+    constructor(start_position=new THREE.Vector3( 0, 0, 0 ), part_list = [], box_size){
         this.size = part_list.length;
         this.start_position = start_position;
         this.part_list = part_list;
+        this.box_size = box_size;
         // if list not empty set start position of first element to (0,0,0)
         if(part_list.length > 0){
             part_list.at(0).setPosition(start_position);
+        }else{
+            console.log("DUPA")
         }
     }
 
@@ -33,6 +36,11 @@ export class Snake{
         }
 
         head.move('w');
+        if(Math.abs(head.getPosition().x) === this.box_size/2
+         || Math.abs(head.getPosition().y) === this.box_size/2
+         || Math.abs(head.getPosition().z) === this.box_size/2){
+            this.turn('a');
+        }
     }
 
     turn(direction){
