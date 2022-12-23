@@ -44,11 +44,9 @@ export class World{
 
 
         document.addEventListener('keydown', (e) => {
-            if(e.key === 'w'){
-              this.snake.move_forward();
-            }else if(e.key === ' '){
+            if(e.key === ' '){
               this.snake.addPart(this.#scene);
-            }else if(e.key === 'a' || e.key === 'd' || e.key === 's'){
+            }else if(e.key === 'a' || e.key === 'd'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
               this.interval -= 1;
