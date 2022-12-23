@@ -12,11 +12,7 @@ export class SnakePart{
     }
 
     move(direction){
-        if(direction === 'w'){
-            this.cube.position.add(this.direction);
-        }else if(direction === 's'){
-            this.direction = this.direction.negate();
-        }else if(direction === 'a'){
+        if(direction === 'a'){
             this.direction = new THREE.Vector3(this.direction.z, 0,-this.direction.x);
         }else if(direction === 'd'){
             this.direction = new THREE.Vector3(-this.direction.z, 0,this.direction.x);

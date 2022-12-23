@@ -33,7 +33,7 @@ export class World{
         this.#camera.position.setZ(30);
 
 
-        this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),4);
+        this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
 
 
         this.box = new Box(20);
