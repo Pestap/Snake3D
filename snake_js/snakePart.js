@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 
 export class SnakePart{
-    constructor(snake, cube){
-        this.snake = snake;
+    constructor(cube, position){
         this.cube = cube;
+        this.setPosition(position);
         this.direction = new THREE.Vector3(0,0,-1) // start heading
     }
 

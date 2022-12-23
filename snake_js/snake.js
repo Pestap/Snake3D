@@ -2,16 +2,17 @@ import { SnakePart } from "./snakePart";
 import * as THREE from 'three';
 
 export class Snake{
-    constructor(start_position=new THREE.Vector3( 0, 0, 0 ), part_list = [], box_size){
-        this.size = part_list.length;
+    part_list = [];
+    constructor(start_position, size, box_size){
+        this.size = size
         this.start_position = start_position;
-        this.part_list = part_list;
         this.box_size = box_size;
-        // if list not empty set start position of first element to (0,0,0)
-        if(part_list.length > 0){
-            part_list.at(0).setPosition(start_position);
-        }else{
-            console.log("DUPA")
+        this.geometry = new THREE.BoxGeometry(1,1,1);
+        this.material = new THREE.MeshStandardMaterial({color: 0x23ff0a});
+
+        for(let i = 0; i< size; i++){
+            this.part_list.push(new SnakePart(new THREE.Mesh(this.geometry, this.material),new THREE.Vector3( 0, 0, i)));
+            //this.material.color += 100;
         }
     }
 
@@ -27,11 +28,8 @@ export class Snake{
         for (let i = this.part_list.length-1 ; i >= 1; i--){
             let currentElement = this.part_list.at(i);
             let previousElement = this.part_list.at(i-1);
-            // copy for subtracting (calculating the direction of travel)
             let prevElementPosition = previousElement.getPosition().clone();
             currentElement.direction = prevElementPosition.sub(currentElement.getPosition());
-            //currentElement.direction = previousElement.direction;
-            //currentElement.setPosition(previousElement.getPosition());
             currentElement.move('w');
         }
 
