@@ -9,6 +9,7 @@ export class Loop {
     }
 
     start() {
+        counter =0;
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
@@ -17,6 +18,7 @@ export class Loop {
 
     }
     stop() {
+        console.log("STOPPED");
         this.renderer.setAnimationLoop(null);
     }
     tick(){
@@ -33,8 +35,6 @@ export class Loop {
             counter = 0;
         }
         counter++;
-
-        
 
     }
 }

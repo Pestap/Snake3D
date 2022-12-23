@@ -18,29 +18,17 @@ export class World{
 
     constructor(container){
         this.#camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);
+        this.#camera.position.setZ(30);
         this.#renderer = new THREE.WebGLRenderer({canvas: container});
+        this.#renderer.setPixelRatio(window.devicePixelRatio);
+        this.#renderer.setSize(window.innerWidth, window.innerHeight);
+
         this.#scene = new THREE.Scene();
         this.#controls = new OrbitControls(this.#camera, this.#renderer.domElement);
 
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#controls, this);
 
-        this.#renderer.setPixelRatio(window.devicePixelRatio);
-        this.#renderer.setSize(window.innerWidth, window.innerHeight);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff);
-        this.#scene.add(ambientLight);
-
-        this.#camera.position.setZ(30);
-
-
-        this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
-
-
-        this.box = new Box(20);
-        this.box.draw(this.#scene);
-        this.snake.draw(this.#scene);
-
-        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 )));
 
 
         document.addEventListener('keydown', (e) => {
@@ -106,14 +94,14 @@ export class World{
          || Math.abs(head.getPosition().y) > this.box.size/2
          || Math.abs(head.getPosition().z) > this.box.size/2
         ){
-            this.stop();
+            this.restart();
         }
 
         //check if snake eats itself
 
         this.snake.part_list.slice(1).forEach(part => {
             if(part.getPosition().equals(head.getPosition())){
-                this.stop();
+                this.restart();
             }
         })
     }
@@ -122,10 +110,37 @@ export class World{
         this.#renderer.render();
     }
     start(){
+        // initialize game
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        this.#scene.add(ambientLight);
+
+        this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
+
+
+        this.box = new Box(20);
+        this.box.draw(this.#scene);
+        this.snake.draw(this.#scene);
+
+        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 )));
+
+
+
         this.#loop.start();
-        console.log(this.interval)
     }
+
+    restart(){
+        this.stop();
+        const iterations = this.#scene.children.length;
+        for(let i =0; i<iterations; i++){
+            this.#scene.remove(this.#scene.children.at(0));
+        }
+
+        this.fruits = [];
+        this.start()
+    }
+
     stop(){
+        //deinitailize game
         this.#loop.stop()
     }
 }
