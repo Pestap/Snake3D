@@ -35,7 +35,7 @@ snakePart3.setPosition(new THREE.Vector3( 0, 0,2 ));
 snakePart4.setPosition(new THREE.Vector3( 0, 0,3 ));
 
 
-const snake = new Snake(0, new THREE.Vector3( 0, 0,0 ), [snakePart, snakePart2, snakePart3, snakePart4]);
+const snake = new Snake(new THREE.Vector3( 0, 0,0 ), [snakePart, snakePart2, snakePart3, snakePart4]);
 snake.draw(scene);
 
 
@@ -55,15 +55,17 @@ scene.add(gridHelper);
 const controls = new OrbitControls(camera, renderer.domElement);
 
 document.addEventListener('keydown', (e) => {
-  if(e.key === 'w' || e.key === 's' || e.key === 'a' || e.key === 'd' ){
-    snake.move(e.key);
+  if(e.key === 'w'){
+    snake.move_forward();
   }else if(e.key === ' '){
     snake.addPart(scene);
+  }else if(e.key === 'a' || e.key === 'd' || e.key === 's'){
+    snake.turn(e.key);
   }
 
 });
 // move evert 0.5 s
-setInterval(function () {snake.move('w')}, 1500);
+setInterval(function () {snake.move_forward()}, 500);
 
 function animate(){
   requestAnimationFrame(animate);

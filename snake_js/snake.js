@@ -2,7 +2,7 @@ import { SnakePart } from "./snakePart";
 import * as THREE from 'three';
 
 export class Snake{
-    constructor(size=0, start_position=new THREE.Vector3( 0, 0, 0 ), part_list = []){
+    constructor(start_position=new THREE.Vector3( 0, 0, 0 ), part_list = []){
         this.size = part_list.length;
         this.start_position = start_position;
         this.part_list = part_list;
@@ -17,7 +17,7 @@ export class Snake{
         this.part_list.forEach(element => scene.add(element.cube));
     }
 
-    move(direction){
+    move_forward(){
         // moving from the end of the list because movement direction is dicated by th head
         let head = this.part_list.at(0);
 
@@ -27,11 +27,16 @@ export class Snake{
             // copy for subtracting (calculating the direction of travel)
             let prevElementPosition = previousElement.getPosition().clone();
             currentElement.direction = prevElementPosition.sub(currentElement.getPosition());
-
-            currentElement.setPosition(previousElement.getPosition());
+            //currentElement.direction = previousElement.direction;
+            //currentElement.setPosition(previousElement.getPosition());
+            currentElement.move('w');
         }
 
-        head.move(direction);
+        head.move('w');
+    }
+
+    turn(direction){
+        this.part_list.at(0).move(direction);
     }
 
     addPart(scene){
