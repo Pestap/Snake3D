@@ -110,6 +110,14 @@ export class World{
         ){
             this.stop();
         }
+
+        //check if snake eats itself
+
+        this.snake.part_list.slice(1).forEach(part => {
+            if(part.getPosition().equals(head.getPosition())){
+                this.stop();
+            }
+        })
     }
 
     render(){
