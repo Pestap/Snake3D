@@ -37,7 +37,6 @@ export class World{
             }else if(e.key === 'a' || e.key === 'd'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
-              this.interval -= 1;
               console.log(this.interval)
             }
         });
@@ -53,9 +52,13 @@ export class World{
                 this.fruits.splice(i,1);
 
                 //speed the game up
-                if(this.snake.size % 5 == 0){
+                if(this.snake.size % 1 == 0){
                     this.interval -= 1;
                 }
+                
+                // update score
+                let score_span = document.getElementById('score');
+                score_span.textContent = this.snake.size;
 
                 // place new fruit
                 // ranodmize coords until valid:
@@ -116,6 +119,9 @@ export class World{
 
         this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
 
+        // initialize UI
+        let score_span = document.getElementById('score');
+        score_span.innerText = this.snake.size;
 
         this.box = new Box(20);
         this.box.draw(this.#scene);
@@ -130,7 +136,7 @@ export class World{
     }
 
     restart(){
-
+        this.interval = 30;
         const iterations = this.#scene.children.length;
         for(let i =0; i<iterations; i++){
             this.#scene.remove(this.#scene.children.at(0));

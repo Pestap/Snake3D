@@ -9,7 +9,7 @@ export class Loop {
     }
 
     start() {
-        counter =0;
+        counter = 0;
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
@@ -20,9 +20,10 @@ export class Loop {
     stop() {
         console.log("STOPPED");
         this.renderer.setAnimationLoop(null);
+        counter = 0;
     }
     tick(){
-        if(counter % this.world.interval=== 0){
+        if(counter % this.world.interval === 0){
             // snake movement
             this.world.snake.move_forward();
             //draw fruits
