@@ -27,11 +27,11 @@ export class Snake{
             let currentElement = this.part_list.at(i);
             let previousElement = this.part_list.at(i-1);
             let prevElementPosition = previousElement.getPosition().clone();
-            currentElement.direction = prevElementPosition.sub(currentElement.getPosition());
-            currentElement.move('w');
+            //currentElement.direction = prevElementPosition.sub(currentElement.getPosition());
+            currentElement.move_forward();
         }
 
-        head.move_forward('w');
+        head.move_forward();
     }
 
     turn(direction){

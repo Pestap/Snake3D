@@ -29,7 +29,6 @@ export class SnakePart{
             let temp_r = this.right.clone();
             this.right = this.forward.clone();
             this.forward = temp_r.negate();
-            this.forward = new THREE.Vector3(this.forward.z, 0,-this.forward.x);
         }else if(direction === 'd'){
             // rotate 'right'
             let temp_f = this.forward.clone();
