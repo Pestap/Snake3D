@@ -4,7 +4,9 @@ export class SnakePart{
     constructor(cube, position){
         this.cube = cube;
         this.setPosition(position);
-        this.direction = new THREE.Vector3(0,0,-1) // start heading
+        this.forward = new THREE.Vector3(0,0,-1) // forward direction
+        this.up = new THREE.Vector3(0,1,0);
+        this.right = new THREE.Vector3(1,0,0);
     }
 
     draw(scene){
@@ -13,11 +15,11 @@ export class SnakePart{
 
     move(direction){
         if(direction === 'w'){
-            this.cube.position.add(this.direction);
+            this.cube.position.add(this.forward);
         }else if(direction === 'a'){
-            this.direction = new THREE.Vector3(this.direction.z, 0,-this.direction.x);
+            this.forward = new THREE.Vector3(this.forward.z, 0,-this.forward.x);
         }else if(direction === 'd'){
-            this.direction = new THREE.Vector3(-this.direction.z, 0,this.direction.x);
+            this.forward = new THREE.Vector3(-this.forward.z, 0,this.forward.x);
         }
     }
 

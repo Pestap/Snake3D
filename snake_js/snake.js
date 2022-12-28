@@ -43,7 +43,7 @@ export class Snake{
 
         // set the position of new cube based on direction of movement of last cube
         let prevPartPosition = this.part_list.at(-1).getPosition().clone();
-        let prevPartDirection = this.part_list.at(-1).direction.clone();
+        let prevPartDirection = this.part_list.at(-1).forward.clone();
         // calculate position of new cube by subtracting the direction from previous position (new cube is added on the opposite side)
         let newPartPosition = prevPartPosition.sub(prevPartDirection);
  
@@ -51,7 +51,7 @@ export class Snake{
        
         let newSnakePart = new SnakePart(new THREE.Mesh(new THREE.BoxGeometry(1,1,1)
         , this.material),newPartPosition );
-        newSnakePart.direction = prevPartDirection;
+        newSnakePart.forward = prevPartDirection;
 
         this.part_list.push(newSnakePart);
         this.draw(scene);
