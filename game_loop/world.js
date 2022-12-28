@@ -33,7 +33,7 @@ export class World{
         document.addEventListener('keydown', (e) => {
             if(e.key === ' '){
               this.snake.addPart(this.#scene);
-            }else if(e.key === 'a' || e.key === 'd'){
+            }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
               console.log(this.interval)

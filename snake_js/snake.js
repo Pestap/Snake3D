@@ -31,7 +31,7 @@ export class Snake{
             currentElement.move('w');
         }
 
-        head.move('w');
+        head.move_forward('w');
     }
 
     turn(direction){
