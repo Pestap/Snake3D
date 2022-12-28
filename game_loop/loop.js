@@ -35,6 +35,11 @@ export class Loop {
 
             counter = 0;
         }
+
+        // update speed display
+        let speed_div = document.getElementById('speed');
+        speed_div.innerText = Math.round(60/this.world.interval * 100) / 100;
+        
         counter++;
 
     }

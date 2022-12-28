@@ -66,7 +66,8 @@ export class World{
                 
                 // update score
                 let score_span = document.getElementById('score');
-                score_span.textContent = this.snake.size;
+                // fruits eaten
+                score_span.textContent = this.snake.size-1;
 
                 // place new fruit
                 // ranodmize coords until valid:
@@ -129,7 +130,7 @@ export class World{
 
         // initialize UI
         let score_span = document.getElementById('score');
-        score_span.innerText = this.snake.size;
+        score_span.innerText = this.snake.size-1;
 
         this.box = new Box(20);
         this.box.draw(this.#scene);
