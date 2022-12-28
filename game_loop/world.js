@@ -25,7 +25,8 @@ export class World{
 
         this.#scene = new THREE.Scene();
         this.#controls = new OrbitControls(this.#camera, this.#renderer.domElement);
-
+        this.#controls.enableDamping = true;
+        this.#controls.enablePan = false
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#controls, this);
 
 
@@ -38,6 +39,7 @@ export class World{
             }else if(e.key === 'p'){
               console.log(this.interval)
             }
+
         });
 
         //resizing window
@@ -60,7 +62,7 @@ export class World{
                 this.fruits.splice(i,1);
 
                 //speed the game up
-                if(this.snake.size % 1 == 0){
+                if(this.snake.size % 5 == 0){
                     this.interval -= 1;
                 }
                 
