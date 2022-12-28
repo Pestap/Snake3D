@@ -121,6 +121,7 @@ export class World{
         this.box.draw(this.#scene);
         this.snake.draw(this.#scene);
 
+
         this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 )));
 
 
@@ -129,7 +130,7 @@ export class World{
     }
 
     restart(){
-        this.stop();
+
         const iterations = this.#scene.children.length;
         for(let i =0; i<iterations; i++){
             this.#scene.remove(this.#scene.children.at(0));
