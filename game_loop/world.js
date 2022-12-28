@@ -132,7 +132,7 @@ export class World{
         let score_span = document.getElementById('score');
         score_span.innerText = this.snake.size-1;
 
-        this.box = new Box(20);
+        this.box = new Box(50);
         this.box.draw(this.#scene);
         this.snake.draw(this.#scene);
 
