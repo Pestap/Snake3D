@@ -29,8 +29,7 @@ export class World{
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#controls, this);
 
 
-
-
+        // key mapping
         document.addEventListener('keydown', (e) => {
             if(e.key === ' '){
               this.snake.addPart(this.#scene);
@@ -40,6 +39,15 @@ export class World{
               console.log(this.interval)
             }
         });
+
+        //resizing window
+        window.addEventListener('resize', (e) => {
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            this.#renderer.setSize(width, height);
+            this.#camera.aspect = width/height;
+            this.#camera.updateProjectionMatrix();
+        } )
 
         
     }
