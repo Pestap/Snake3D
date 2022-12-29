@@ -33,11 +33,11 @@ export class World{
         // key mapping
         document.addEventListener('keydown', (e) => {
             if(e.key === ' '){
-              this.snake.addPart(this.#scene);
+                this.rotate_camera_behind();
             }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
-              console.log(this.interval)
+              this.#camera.position.lerp(new THREE.Vector3(100,100,100), 0.1);
             }
 
         });
@@ -52,6 +52,18 @@ export class World{
         } )
 
         
+    }
+
+    rotate_camera_behind(){
+        // TODO: Rotate around current position by given angle (depending on movment direction)
+        // holding space bar allows to reset camera to behind
+        let snake_head_position = this.snake.part_list.at(0).getPosition().clone();
+        let camera_x = snake_head_position.x;
+        let camera_y = snake_head_position.y;
+        let camera_z = snake_head_position.z;
+
+        let new_camera_position = new THREE.Vector3(camera_x, camera_y, camera_z);
+        this.#camera.position.lerp(new_camera_position, 0.1);
     }
     checkForCollisionsWithFruits(){        
         for(let i =0; i< this.fruits.length; i++){
@@ -78,9 +90,9 @@ export class World{
                     const min = -this.box.size/2;
 
                     let x = Math.floor(Math.random() * (max-min) + min);
-                    //let y =  Math.floor(Math.random() * (max-min) + min);
+                    let y =  Math.floor(Math.random() * (max-min) + min);
                     let z = Math.floor(Math.random() * (max-min) + min);
-                    let y = 0;
+                    
 
                     const fruit_position = new THREE.Vector3(x,y,z);
                     //check if valid
