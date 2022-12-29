@@ -1,8 +1,10 @@
 import { SnakePart } from "./snakePart";
 import * as THREE from 'three';
+import { Vector3 } from "three";
 
 export class Snake{
     part_list = [];
+    eyes = [];
     constructor(start_position, size){
         this.size = size
         this.start_position = start_position;
@@ -12,11 +14,23 @@ export class Snake{
             this.part_list.push(new SnakePart(new THREE.Mesh(this.geometry, this.material),new THREE.Vector3( 0, 0, i)));
  
         }
+
+        const eye_geometry = new THREE.SphereGeometry(0.3);
+        const eye_material = new THREE.MeshBasicMaterial( { color: 0x0000ff} );
+        const left_eye = new THREE.Mesh( eye_geometry,eye_material );
+        const right_eye = new THREE.Mesh( eye_geometry, eye_material );
+
+        this.eyes.push(left_eye);
+        this.eyes.push(right_eye);
+
     }
 
     // adding all parts to the scene
     draw(scene){
+        // draw parts
         this.part_list.forEach(element => scene.add(element.cube));
+        // draw eyes
+        this.eyes.forEach(eye => scene.add(eye));
     }
 
     move_forward(){
@@ -32,6 +46,25 @@ export class Snake{
         }
 
         head.move_forward();
+        
+        // set eyes position
+        let left_eye = this.eyes.at(0);
+        let left_eye_position = new Vector3(head.getPosition().clone().x, head.getPosition().clone().y, head.getPosition().clone().z); 
+
+        left_eye.position.set(left_eye_position.x,left_eye_position.y,left_eye_position.z);
+        left_eye.position.add(head.up.clone().multiplyScalar(0.5));
+        left_eye.position.add(head.right.clone().negate().multiplyScalar(0.5));
+        left_eye.position.add(head.forward.clone().multiplyScalar(0.5));
+
+        let right_eye = this.eyes.at(1);
+        let right_eye_position = new Vector3(head.getPosition().clone().x, head.getPosition().clone().y, head.getPosition().clone().z); 
+
+        right_eye.position.set(right_eye_position.x,right_eye_position.y,right_eye_position.z);
+        right_eye.position.add(head.up.clone().multiplyScalar(0.5));
+        right_eye.position.add(head.right.clone().multiplyScalar(0.5));
+        right_eye.position.add(head.forward.clone().multiplyScalar(0.5));
+
+
     }
 
     turn(direction){
