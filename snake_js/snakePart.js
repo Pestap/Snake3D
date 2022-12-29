@@ -14,6 +14,7 @@ export class SnakePart{
     }
 
     move(direction){
+        // TODO: Add roll ( Q and E)
         if(direction === 'w'){
             // rotate 'up'
             let temp_f = this.forward.clone();
@@ -25,15 +26,26 @@ export class SnakePart{
             this.up = this.forward.clone();
             this.forward = temp_u.negate();
         }else if(direction === 'a'){
-            //rotate 'left'
+            //turn 'left'
             let temp_r = this.right.clone();
             this.right = this.forward.clone();
             this.forward = temp_r.negate();
         }else if(direction === 'd'){
-            // rotate 'right'
+            // turn 'right'
             let temp_f = this.forward.clone();
             this.forward = this.right.clone();
             this.right = temp_f.negate();
+        }else if(direction === 'q'){
+            //rotate left
+            let temp_u = this.up.clone();
+            this.up = this.right.clone().negate();
+            this.right = temp_u;
+
+        }else if(direction === 'e'){
+            // rotate right
+            let temp_r = this.right.clone();
+            this.right = this.up.clone().negate();
+            this.up = temp_r;
         }
     }
 

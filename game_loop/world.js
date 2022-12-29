@@ -38,7 +38,7 @@ export class World{
         document.addEventListener('keydown', (e) => {
             if(e.key === ' '){
                 this.rotate_camera_behind();
-            }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's'){
+            }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's' || e.key === 'q' || e.key === 'e'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
               this.#camera.position.lerp(new THREE.Vector3(100,100,100), 0.1);
