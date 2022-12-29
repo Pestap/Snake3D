@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { ArcballControls } from 'three/examples/jsm/controls/ArcballControls';
 import { Loop } from './loop.js';
 import { Snake } from '../snake_js/snake.js';
 import { Box } from '../snake_js/box.js';
@@ -18,7 +20,8 @@ export class World{
 
     constructor(container){
         this.#camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);
-        this.#camera.position.setZ(30);
+        this.#camera.position.setZ(40);
+        this.#camera.position.setY(30);
         this.#renderer = new THREE.WebGLRenderer({canvas: container});
         this.#renderer.setPixelRatio(window.devicePixelRatio);
         this.#renderer.setSize(window.innerWidth, window.innerHeight);
@@ -26,7 +29,8 @@ export class World{
         this.#scene = new THREE.Scene();
         this.#controls = new OrbitControls(this.#camera, this.#renderer.domElement);
         this.#controls.enableDamping = true;
-        this.#controls.enablePan = false
+        this.#controls.enablePan = false;
+        this.#controls.noPan = true;
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#controls, this);
 
 
@@ -49,6 +53,7 @@ export class World{
             this.#renderer.setSize(width, height);
             this.#camera.aspect = width/height;
             this.#camera.updateProjectionMatrix();
+            this.#controls.handleResize();
         } )
 
         
