@@ -35,15 +35,31 @@ export class World{
 
 
         // key mapping
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keypress', (e) => {
             if(e.key === ' '){
                 this.rotate_camera_behind();
             }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's' || e.key === 'q' || e.key === 'e'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
               this.#camera.position.lerp(new THREE.Vector3(100,100,100), 0.1);
+            }else if(e.key === 'z'){
+                this.fruits.at(0).draw_helper(this.#scene, 'x', 50);
+            }else if(e.key === 'x'){
+                this.fruits.at(0).draw_helper(this.#scene, 'y', 50);
+            }else if(e.key === 'c'){
+                this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
             }
 
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if(e.key === 'z'){
+                this.fruits.at(0).remove_helper(this.#scene, 'x');
+            }else if(e.key === 'x'){
+                this.fruits.at(0).remove_helper(this.#scene, 'y');
+            }if(e.key === 'c'){
+                this.fruits.at(0).remove_helper(this.#scene, 'z');
+            }
         });
 
         //resizing window
@@ -53,7 +69,7 @@ export class World{
             this.#renderer.setSize(width, height);
             this.#camera.aspect = width/height;
             this.#camera.updateProjectionMatrix();
-            this.#controls.handleResize();
+            //this.#controls.handleResize(); // only for trackball controls
         } )
 
         
@@ -76,6 +92,7 @@ export class World{
                 //remove fruit
                 this.snake.addPart(this.#scene);
                 this.#scene.remove(this.fruits.at(i).cube);
+                this.fruits.at(i).remove_all_helpers(this.#scene);
                 this.fruits.splice(i,1);
 
                 //speed the game up
@@ -108,7 +125,7 @@ export class World{
                         }
                     })
                     if(is_valid){
-                        this.fruits.push(new Fruit(fruit_position));
+                        this.fruits.push(new Fruit(fruit_position, this.box.size));
                         this.fruits.at(-1).draw(this.#scene);
                         break;
                     }
@@ -156,7 +173,7 @@ export class World{
         this.snake.draw(this.#scene);
 
 
-        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 )));
+        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 ), this.box.size));
 
 
 
