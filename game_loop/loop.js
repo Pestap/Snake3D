@@ -36,7 +36,8 @@ export class Loop {
             this.world.checkForCollisionsWithFruits();
             //check if collision inside snake
             this.world.checkForSnakeCollisions();
-
+            //check for wall proximity (TODO)
+            this.world.checkForWallProximity();
             counter = 0;
         }
 

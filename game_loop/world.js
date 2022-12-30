@@ -154,6 +154,29 @@ export class World{
         })
     }
 
+    checkForWallProximity(){
+        // 3 cases 
+        //check all 3 scenarios(ex. in a corner)
+
+        let threshlod = 0.1;
+
+        let head = this.snake.part_list.at(0);
+        
+        if(Math.abs(head.getPosition().x) *(1 + threshlod) >= this.box.size/2){
+            // too close
+            // draw wall 
+            let sign = head.getPosition().x / Math.abs(head.getPosition().x) 
+            let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.1, transparent: true}); // create transparent material
+            let cube = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
+            cube.position.set(sign*(this.box.size/2+0.5), 0, 0)
+
+            //TODO: Check if already draw (preferably in the same way as with helpers)
+            this.#scene.add(cube);
+        }
+
+        //TODO: Other two dimesnions in the same way, add dict
+    }
+
     render(){
         this.#renderer.render();
     }

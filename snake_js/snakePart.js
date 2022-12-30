@@ -14,7 +14,6 @@ export class SnakePart{
     }
 
     move(direction){
-        // TODO: Add roll ( Q and E)
         if(direction === 'w'){
             // rotate 'up'
             let temp_f = this.forward.clone();

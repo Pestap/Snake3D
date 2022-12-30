@@ -71,6 +71,8 @@ export class Snake{
         this.part_list.at(0).move(direction);
     }
 
+    // TODO: Scaling last parts (ex. 4 stages of growth)
+    
     addPart(scene){
         this.size += 1;
 

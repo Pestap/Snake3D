@@ -23,13 +23,13 @@ export class Fruit{
     }
 
     init_helpers(box_size){
-        let material = new THREE.MeshPhongMaterial({color: 0xff000f, opacity: 0.2, transparent: true}); // create transparent material
+        let material = new THREE.MeshPhongMaterial({color: 0xfffff, opacity: 0.2, transparent: true}); // create transparent material
         this.helpers['x'] = new THREE.Mesh(new THREE.BoxGeometry(1,box_size,box_size), material);
         this.helpers['y'] = new THREE.Mesh(new THREE.BoxGeometry(box_size, 1 ,box_size), material);
         this.helpers['z'] = new THREE.Mesh(new THREE.BoxGeometry(box_size, box_size ,1), material);
     }
 
-    draw_helper(scene, axis, box_size){
+    draw_helper(scene, axis){
         
         let helper_plane_position = new THREE.Vector3();
 
