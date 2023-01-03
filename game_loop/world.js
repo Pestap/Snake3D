@@ -17,6 +17,14 @@ export class World{
     fruits = [];
     box;
     interval=30;
+    helpers = {
+        'x_positive' : null,
+        'x_negative' : null,
+        'y_positive' : null,
+        'y_negative' : null,
+        'z_positive' : null,
+        'z_negtive' : null
+    }
 
     constructor(container){
         this.#camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);
@@ -153,12 +161,14 @@ export class World{
             }
         })
     }
-
+    initWallHelpers(){
+        // x_pos and x_neg
+    }
     checkForWallProximity(){
         // 3 cases 
         //check all 3 scenarios(ex. in a corner)
 
-        let threshlod = 0.1;
+        let threshlod = 0.1; // threshold in percentage
 
         let head = this.snake.part_list.at(0);
         
