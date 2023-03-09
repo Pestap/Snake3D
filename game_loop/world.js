@@ -167,7 +167,7 @@ export class World{
     }
     initWallHelpers(){
         // x_pos and x_neg
-        let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.1, transparent: true}); // create transparent material
+        let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.2, transparent: true}); // create transparent material
         this.helpers['x_positive'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
         this.helpers['x_negative'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
         this.helpers['y_positive'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, 0.01, this.box.size+1), material);
@@ -179,23 +179,70 @@ export class World{
         // 3 cases 
         //check all 3 scenarios(ex. in a corner)
 
-        let threshlod = 0.1; // threshold in percentage
+        let threshlod = 0.15; // threshold in percentage
 
         let head = this.snake.part_list.at(0);
         
-        if(Math.abs(head.getPosition().x) *(1 + threshlod) >= this.box.size/2){
-            // too close
-            // draw wall 
-            let sign = head.getPosition().x / Math.abs(head.getPosition().x) 
-            let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.1, transparent: true}); // create transparent material
-            let cube = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
-            cube.position.set(sign*(this.box.size/2+0.5), 0, 0)
-            console.log(si)
-            //TODO: Check if already draw (preferably in the same way as with helpers)
-            this.#scene.add(cube);
+        let helpers_to_add = [];
+        let helpers_to_remove = [];
+
+        let x_sign = head.getPosition().x / Math.abs(head.getPosition().x)
+        let x_sign_key = x_sign >= 0 ? 'x_positive' : 'x_negative';
+
+        let y_sign = head.getPosition().y / Math.abs(head.getPosition().y)
+        let y_sign_key = y_sign >= 0 ? 'y_positive' : 'y_negative';
+
+        let z_sign = head.getPosition().z / Math.abs(head.getPosition().z)
+        let z_sign_key = z_sign >= 0 ? 'z_positive' : 'z_negative';
+
+
+        //draw or remove walls on x axis
+        if(Math.abs(head.getPosition().x)  >= this.box.size/2 * (1 - threshlod)){
+            this.helpers[x_sign_key].position.set(x_sign*(this.box.size/2 + 0.5), 0, 0);
+            // add wall to list to be drawn
+            helpers_to_add.push(this.helpers[x_sign_key]);
+
+        }else{
+            // add wall to list to be removed
+            helpers_to_remove.push(this.helpers[x_sign_key])
+        }
+        // draw or remove walls on y axis
+        if(Math.abs(head.getPosition().y)  >= this.box.size/2  * (1 - threshlod)){
+            this.helpers[y_sign_key].position.set(0, y_sign*(this.box.size/2 + 0.5), 0);
+            // add wall to list to be drawn
+            helpers_to_add.push(this.helpers[y_sign_key]);
+
+        }else{
+            // add wall to list to be removed
+            helpers_to_remove.push(this.helpers[y_sign_key])
+        }
+        // draw or remove wallls on z axis
+        if(Math.abs(head.getPosition().z)  >= this.box.size/2 * (1 - threshlod)){
+            this.helpers[z_sign_key].position.set(0, 0, z_sign*(this.box.size/2 + 0.5));
+            // add wall to list to be drawn
+            helpers_to_add.push(this.helpers[z_sign_key]);
+
+        }else{
+            // add wall to list to be removed
+            helpers_to_remove.push(this.helpers[z_sign_key])
         }
 
-        //TODO: Other two dimesnions in the same way, add dict
+
+
+        // draw desired helper walls
+
+        helpers_to_add.forEach(wall => {
+            if(!this.#scene.children.includes(wall)){
+                this.#scene.add(wall);
+            }
+        })
+
+        // remove walls that are not needed
+        helpers_to_remove.forEach(wall => {
+            if(this.#scene.children.includes(wall)){
+                this.#scene.remove(wall);
+            }
+        })
     }
 
     render(){
