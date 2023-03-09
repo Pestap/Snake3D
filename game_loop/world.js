@@ -79,6 +79,10 @@ export class World{
             this.#camera.updateProjectionMatrix();
             //this.#controls.handleResize(); // only for trackball controls
         } )
+        
+
+        // initialize wall helpers
+
 
         
     }
@@ -186,7 +190,7 @@ export class World{
             let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.1, transparent: true}); // create transparent material
             let cube = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
             cube.position.set(sign*(this.box.size/2+0.5), 0, 0)
-
+            console.log(si)
             //TODO: Check if already draw (preferably in the same way as with helpers)
             this.#scene.add(cube);
         }
@@ -215,7 +219,7 @@ export class World{
 
         this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 ), this.box.size));
 
-
+        this.initWallHelpers()
 
         this.#loop.start();
     }
