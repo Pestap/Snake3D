@@ -163,6 +163,13 @@ export class World{
     }
     initWallHelpers(){
         // x_pos and x_neg
+        let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.1, transparent: true}); // create transparent material
+        this.helpers['x_positive'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
+        this.helpers['x_negative'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
+        this.helpers['y_positive'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, 0.01, this.box.size+1), material);
+        this.helpers['y_negative'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, 0.01, this.box.size+1), material);
+        this.helpers['z_positive'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, this.box.size + 1, 0.01), material);
+        this.helpers['z_negative'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, this.box.size + 1, 0.01), material);
     }
     checkForWallProximity(){
         // 3 cases 
