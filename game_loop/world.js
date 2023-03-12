@@ -6,6 +6,7 @@ import { Loop } from './loop.js';
 import { Snake } from '../snake_js/snake.js';
 import { Box } from '../snake_js/box.js';
 import { Fruit } from '../snake_js/fruit';
+import { UI } from './ui.js';
 
 export class World{
     #camera;
@@ -16,6 +17,7 @@ export class World{
     snake;
     fruits = [];
     box;
+    ui;
     interval=30;
     helpers = {
         'x_positive' : null,
@@ -40,7 +42,7 @@ export class World{
         this.#controls.enablePan = false;
         this.#controls.noPan = true;
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#controls, this);
-
+        this.ui = new UI();
 
         // key mapping
         document.addEventListener('keypress', (e) => {
@@ -58,6 +60,7 @@ export class World{
                 this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
             }else if(e.key == 'b'){
                 this.#loop.stop();
+                this.ui.switchPauseMenu();
             }
 
         });
