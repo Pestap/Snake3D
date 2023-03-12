@@ -10,9 +10,13 @@ export class Loop {
 
     start() {
         counter = 0;
+        
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
+            this.controls.enabled = false;
+            this.controls.target.lerp(this.world.snake.part_list.at(0).getPosition(), 0.01);
+            this.controls.enabled = true;
             this.tick();
         });
 
@@ -32,14 +36,15 @@ export class Loop {
             this.world.checkForCollisionsWithFruits();
             //check if collision inside snake
             this.world.checkForSnakeCollisions();
-
+            //check for wall proximity (TODO)
+            this.world.checkForWallProximity();
             counter = 0;
         }
 
         // update speed display
         let speed_div = document.getElementById('speed');
         speed_div.innerText = Math.round(60/this.world.interval * 100) / 100;
-        
+
         counter++;
 
     }

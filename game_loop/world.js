@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { ArcballControls } from 'three/examples/jsm/controls/ArcballControls';
 import { Loop } from './loop.js';
 import { Snake } from '../snake_js/snake.js';
 import { Box } from '../snake_js/box.js';
@@ -15,28 +17,56 @@ export class World{
     fruits = [];
     box;
     interval=30;
+    helpers = {
+        'x_positive' : null,
+        'x_negative' : null,
+        'y_positive' : null,
+        'y_negative' : null,
+        'z_positive' : null,
+        'z_negtive' : null
+    }
 
     constructor(container){
         this.#camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);
-        this.#camera.position.setZ(30);
+        this.#camera.position.setZ(40);
+        this.#camera.position.setY(30);
         this.#renderer = new THREE.WebGLRenderer({canvas: container});
         this.#renderer.setPixelRatio(window.devicePixelRatio);
         this.#renderer.setSize(window.innerWidth, window.innerHeight);
 
         this.#scene = new THREE.Scene();
         this.#controls = new OrbitControls(this.#camera, this.#renderer.domElement);
-
+        this.#controls.enableDamping = true;
+        this.#controls.enablePan = false;
+        this.#controls.noPan = true;
         this.#loop = new Loop(this.#camera, this.#scene, this.#renderer, this.#controls, this);
 
 
         // key mapping
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keypress', (e) => {
             if(e.key === ' '){
-              this.snake.addPart(this.#scene);
-            }else if(e.key === 'a' || e.key === 'd'){
+                this.rotate_camera_behind();
+            }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's' || e.key === 'q' || e.key === 'e'){
               this.snake.turn(e.key);
             }else if(e.key === 'p'){
-              console.log(this.interval)
+              this.#camera.position.lerp(new THREE.Vector3(100,100,100), 0.1);
+            }else if(e.key === 'z'){
+                this.fruits.at(0).draw_helper(this.#scene, 'x', 50);
+            }else if(e.key === 'x'){
+                this.fruits.at(0).draw_helper(this.#scene, 'y', 50);
+            }else if(e.key === 'c'){
+                this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
+            }
+
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if(e.key === 'z'){
+                this.fruits.at(0).remove_helper(this.#scene, 'x');
+            }else if(e.key === 'x'){
+                this.fruits.at(0).remove_helper(this.#scene, 'y');
+            }if(e.key === 'c'){
+                this.fruits.at(0).remove_helper(this.#scene, 'z');
             }
         });
 
@@ -47,9 +77,26 @@ export class World{
             this.#renderer.setSize(width, height);
             this.#camera.aspect = width/height;
             this.#camera.updateProjectionMatrix();
+            //this.#controls.handleResize(); // only for trackball controls
         } )
+        
+
+        // initialize wall helpers
+
 
         
+    }
+
+    rotate_camera_behind(){
+        // TODO: Rotate around current position by given angle (depending on movment direction)
+        // holding space bar allows to reset camera to behind
+        let snake_head_position = this.snake.part_list.at(0).getPosition().clone();
+        let camera_x = snake_head_position.x;
+        let camera_y = snake_head_position.y;
+        let camera_z = snake_head_position.z;
+
+        let new_camera_position = new THREE.Vector3(camera_x, camera_y, camera_z);
+        this.#camera.position.lerp(new_camera_position, 0.1);
     }
     checkForCollisionsWithFruits(){        
         for(let i =0; i< this.fruits.length; i++){
@@ -57,10 +104,11 @@ export class World{
                 //remove fruit
                 this.snake.addPart(this.#scene);
                 this.#scene.remove(this.fruits.at(i).cube);
+                this.fruits.at(i).remove_all_helpers(this.#scene);
                 this.fruits.splice(i,1);
 
                 //speed the game up
-                if(this.snake.size % 1 == 0){
+                if(this.snake.size % 5 == 0){
                     this.interval -= 1;
                 }
                 
@@ -76,9 +124,9 @@ export class World{
                     const min = -this.box.size/2;
 
                     let x = Math.floor(Math.random() * (max-min) + min);
-                    //let y =  Math.floor(Math.random() * (max-min) + min);
+                    let y =  Math.floor(Math.random() * (max-min) + min);
                     let z = Math.floor(Math.random() * (max-min) + min);
-                    let y = 0;
+                    
 
                     const fruit_position = new THREE.Vector3(x,y,z);
                     //check if valid
@@ -89,7 +137,7 @@ export class World{
                         }
                     })
                     if(is_valid){
-                        this.fruits.push(new Fruit(fruit_position));
+                        this.fruits.push(new Fruit(fruit_position, this.box.size));
                         this.fruits.at(-1).draw(this.#scene);
                         break;
                     }
@@ -117,6 +165,85 @@ export class World{
             }
         })
     }
+    initWallHelpers(){
+        // x_pos and x_neg
+        let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.2, transparent: true}); // create transparent material
+        this.helpers['x_positive'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
+        this.helpers['x_negative'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
+        this.helpers['y_positive'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, 0.01, this.box.size+1), material);
+        this.helpers['y_negative'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, 0.01, this.box.size+1), material);
+        this.helpers['z_positive'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, this.box.size + 1, 0.01), material);
+        this.helpers['z_negative'] = new THREE.Mesh(new THREE.BoxGeometry(this.box.size + 1, this.box.size + 1, 0.01), material);
+    }
+    checkForWallProximity(){
+        // 3 cases 
+        //check all 3 scenarios(ex. in a corner)
+
+        let threshlod = 0.15; // threshold in percentage
+
+        let head = this.snake.part_list.at(0);
+        
+        let helpers_to_add = [];
+        let helpers_to_remove = [];
+
+        let x_sign = head.getPosition().x / Math.abs(head.getPosition().x)
+        let x_sign_key = x_sign >= 0 ? 'x_positive' : 'x_negative';
+
+        let y_sign = head.getPosition().y / Math.abs(head.getPosition().y)
+        let y_sign_key = y_sign >= 0 ? 'y_positive' : 'y_negative';
+
+        let z_sign = head.getPosition().z / Math.abs(head.getPosition().z)
+        let z_sign_key = z_sign >= 0 ? 'z_positive' : 'z_negative';
+
+
+        //draw or remove walls on x axis
+        if(Math.abs(head.getPosition().x)  >= this.box.size/2 * (1 - threshlod)){
+            this.helpers[x_sign_key].position.set(x_sign*(this.box.size/2 + 0.5), 0, 0);
+            // add wall to list to be drawn
+            helpers_to_add.push(this.helpers[x_sign_key]);
+
+        }else{
+            // add wall to list to be removed
+            helpers_to_remove.push(this.helpers[x_sign_key])
+        }
+        // draw or remove walls on y axis
+        if(Math.abs(head.getPosition().y)  >= this.box.size/2  * (1 - threshlod)){
+            this.helpers[y_sign_key].position.set(0, y_sign*(this.box.size/2 + 0.5), 0);
+            // add wall to list to be drawn
+            helpers_to_add.push(this.helpers[y_sign_key]);
+
+        }else{
+            // add wall to list to be removed
+            helpers_to_remove.push(this.helpers[y_sign_key])
+        }
+        // draw or remove wallls on z axis
+        if(Math.abs(head.getPosition().z)  >= this.box.size/2 * (1 - threshlod)){
+            this.helpers[z_sign_key].position.set(0, 0, z_sign*(this.box.size/2 + 0.5));
+            // add wall to list to be drawn
+            helpers_to_add.push(this.helpers[z_sign_key]);
+
+        }else{
+            // add wall to list to be removed
+            helpers_to_remove.push(this.helpers[z_sign_key])
+        }
+
+
+
+        // draw desired helper walls
+
+        helpers_to_add.forEach(wall => {
+            if(!this.#scene.children.includes(wall)){
+                this.#scene.add(wall);
+            }
+        })
+
+        // remove walls that are not needed
+        helpers_to_remove.forEach(wall => {
+            if(this.#scene.children.includes(wall)){
+                this.#scene.remove(wall);
+            }
+        })
+    }
 
     render(){
         this.#renderer.render();
@@ -132,14 +259,14 @@ export class World{
         let score_span = document.getElementById('score');
         score_span.innerText = this.snake.size-1;
 
-        this.box = new Box(20);
+        this.box = new Box(50);
         this.box.draw(this.#scene);
         this.snake.draw(this.#scene);
 
 
-        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 )));
+        this.fruits.push(new Fruit(new THREE.Vector3( 0, 0, -4 ), this.box.size));
 
-
+        this.initWallHelpers()
 
         this.#loop.start();
     }
