@@ -56,6 +56,8 @@ export class World{
                 this.fruits.at(0).draw_helper(this.#scene, 'y', 50);
             }else if(e.key === 'c'){
                 this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
+            }else if(e.key == 'b'){
+                this.#loop.stop();
             }
 
         });
@@ -166,7 +168,7 @@ export class World{
         })
     }
     initWallHelpers(){
-        // x_pos and x_neg
+        // initialize walls
         let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.2, transparent: true}); // create transparent material
         this.helpers['x_positive'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
         this.helpers['x_negative'] = new THREE.Mesh(new THREE.BoxGeometry(0.01,this.box.size + 1,this.box.size+1), material);
@@ -181,10 +183,12 @@ export class World{
 
         let threshlod = 0.15; // threshold in percentage
 
-        let head = this.snake.part_list.at(0);
+        let head = this.snake.part_list.at(0); // get the head of the snake
         
         let helpers_to_add = [];
         let helpers_to_remove = [];
+
+        //determine side of each axis
 
         let x_sign = head.getPosition().x / Math.abs(head.getPosition().x)
         let x_sign_key = x_sign >= 0 ? 'x_positive' : 'x_negative';
