@@ -10,14 +10,22 @@ export class UI{
         // create menu div and append
         this.pauseMenuDiv = document.createElement('div');
         this.pauseMenuDiv.id = 'pauseDiv';
-        // create main text div in pause menu
-        let innerDiv = document.createElement('div')
-        innerDiv.id = 'pauseDivInnerTextDiv'
-        let pauseMenuDivText = document.createTextNode("Game paused");
-        innerDiv.appendChild(pauseMenuDivText);
+        // create title text div in pause menu
+        let innerDivTitle = document.createElement('div')
+        innerDivTitle.id = 'pauseDivInnerTitle'
+        let pauseMenuDivText = document.createTextNode("GAME PAUSED");
+        innerDivTitle.appendChild(pauseMenuDivText);
 
-        //append inner div to main
-        this.pauseMenuDiv.appendChild(innerDiv);
+        // create subtext div in pause menu
+
+        let innerDivText = document.createElement('div')
+        innerDivText.id = 'pauseDivInnerText'
+        let innerDivTextTextnode = document.createTextNode("Press space to continue");
+        innerDivText.appendChild(innerDivTextTextnode);
+
+        // append inner div to main
+        this.pauseMenuDiv.appendChild(innerDivTitle);
+        this.pauseMenuDiv.appendChild(innerDivText);
 
 
 

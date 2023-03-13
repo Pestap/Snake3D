@@ -22,14 +22,29 @@ export class Loop {
         });
 
     }
-    stop() {
+
+    // without animation blocking
+    soft_stop() {
+        this.renderer.setAnimationLoop(() => {
+            this.renderer.render(this.scene, this.camera);
+            this.controls.update();
+            this.controls.enabled = false;
+            this.controls.target.lerp(this.world.snake.part_list.at(0).getPosition(), 0.01);
+            this.controls.enabled = true;
+        });
+        this.going = false;
+        counter = 0;
+    }
+    // with animation blocking
+    hard_stop() {
         this.renderer.setAnimationLoop(null);
         this.going = false;
         counter = 0;
     }
 
+
     toggle(){
-        this.going ? this.stop() : this.start();
+        this.going ? this.soft_stop() : this.start();
     }
     tick(){
         if(counter % this.world.interval === 0){

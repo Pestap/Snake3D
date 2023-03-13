@@ -24,7 +24,7 @@ canvas{
 
 #pauseDiv {
   width: 500px;
-  height: 350px;
+  height: 250px;
   position: absolute;
   margin: auto;
   top: 0;
@@ -39,12 +39,20 @@ canvas{
   border-color: #8a0101;
   display: flex;
   flex-direction: column;
-  align-content: space-around;
-  align-items: center
+  align-items: center;
+  justify-content: center;
 }
 
-#pauseDivInnerTextDiv{
+#pauseDivInnerTitle{
   background-color: #ff2121;
   font-size: 36px;
   padding: 5%;
+  color: #404040;
+}
+
+#pauseDivInnerText{
+  background-color: #ff2121;
+  font-size: 24px;
+  padding: 5%;
+  color: #404040;
 }
