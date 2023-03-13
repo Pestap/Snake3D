@@ -5,10 +5,13 @@ export class UI{
     startInfoDiv;
     scoreDiv;
     speedDiv;
+    userDiv;
+
     parentDiv;
 
     constructor(){
         this.parentDiv = document.getElementById('ui');
+        this.createLoginDiv();
         this.createScoreInfo();
         this.createSpeedInfo();
         this.createPauseInfo();
@@ -89,6 +92,60 @@ export class UI{
 
 
         this.parentDiv.appendChild(this.speedDiv);
+    }
+
+    createLoginDiv(){
+        this.userDiv = document.createElement('div');
+        this.userDiv.id = 'userDiv';
+
+        // create login form
+        let form = document.createElement('form');
+        form.id = 'loginForm';
+
+        
+        // create label for login
+        let userNameLabel = document.createElement('label');
+        userNameLabel.for = 'username';
+        userNameLabel.classList.add('formLabel');
+
+        let userNameLabelText = document.createTextNode('Login: ');
+        userNameLabel.appendChild(userNameLabelText);
+
+        // create input for login
+        let userNameInput = document.createElement('input');
+        userNameInput.type = 'text';
+        userNameInput.id = 'username';
+        userNameInput.classList.add('textInput');
+
+        // add input to label
+        userNameLabel.appendChild(userNameInput);
+
+        // add login input with label to form
+        form.appendChild(userNameLabel);
+
+
+        // create label for password
+        let passwordLabel = document.createElement('label');
+        passwordLabel.for = 'password';
+        passwordLabel.classList.add('formLabel');
+
+        let passwordLabelText = document.createTextNode("Password: ");
+        passwordLabel.appendChild(passwordLabelText);
+
+        // create input for password
+        let passwordInput = document.createElement('input');
+        passwordInput.type = 'password';
+        passwordInput.id = 'password';
+        passwordInput.classList.add('textInput');
+
+        // add input to label
+        passwordLabel.appendChild(passwordInput);
+
+        // add label with input to form
+        form.appendChild(passwordLabel);
+        
+        this.userDiv.appendChild(form);
+        this.parentDiv.appendChild(this.userDiv);
     }
 
     switchPauseMenu(){
