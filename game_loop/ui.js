@@ -6,6 +6,12 @@ export class UI{
     parentDiv;
 
     constructor(){
+        this.createPauseInfo();
+        this.createStartInfo();
+        
+    }
+
+    createPauseInfo(){
         this.pauseMenuDisplayed = false;
         this.parentDiv = document.getElementById('ui');
 
@@ -20,21 +26,22 @@ export class UI{
 
         // append inner div to main
         this.pauseMenuDiv.appendChild(innerDivTitle);
-        //this.pauseMenuDiv.appendChild(innerDivText);
+    }
 
+    createStartInfo(){
         // create start info div
         this.startInfoDisplayed = true;
         this.startInfoDiv = document.createElement('div');
         this.startInfoDiv.id = 'startDiv';
+        // create inside div
         let innerDivStartTitle = document.createElement('div');
         innerDivStartTitle.id = 'startDivInnerTitle';
+
+        // create text node
         let startMenuText = document.createTextNode("PRESS SPACE TO START");
         innerDivStartTitle.appendChild(startMenuText);
 
         this.startInfoDiv.appendChild(innerDivStartTitle);
-
-
-
     }
 
     switchPauseMenu(){
