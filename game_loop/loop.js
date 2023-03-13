@@ -9,6 +9,19 @@ export class Loop {
         this.going = false;
     }
 
+    init(){
+        counter = 0;
+        this.going = true;
+        this.world.ui.displayStartInfo();
+        this.renderer.setAnimationLoop(() => {
+            this.renderer.render(this.scene, this.camera);
+            this.controls.update();
+            this.controls.enabled = false;
+            this.controls.target.lerp(this.world.snake.part_list.at(0).getPosition(), 0.01);
+            this.controls.enabled = true;
+        });
+    }
+
     start() {
         counter = 0;
         this.going = true;

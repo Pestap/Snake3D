@@ -1,6 +1,8 @@
 export class UI{
     pauseMenuDisplayed;
+    startInfoDisplayed;
     pauseMenuDiv;
+    startInfoDiv;
     parentDiv;
 
     constructor(){
@@ -16,33 +18,27 @@ export class UI{
         let pauseMenuDivText = document.createTextNode("GAME PAUSED");
         innerDivTitle.appendChild(pauseMenuDivText);
 
-        // create subtext div in pause menu
-
-        /*let innerDivText = document.createElement('div')
-        innerDivText.id = 'pauseDivInnerText'
-        let innerDivTextTextnode = document.createTextNode("Press space to continue");
-        innerDivText.appendChild(innerDivTextTextnode);*/
-
         // append inner div to main
         this.pauseMenuDiv.appendChild(innerDivTitle);
         //this.pauseMenuDiv.appendChild(innerDivText);
+
+        // create start info div
+        this.startInfoDisplayed = true;
+        this.startInfoDiv = document.createElement('div');
+        this.startInfoDiv.id = 'startDiv';
+        let innerDivStartTitle = document.createElement('div');
+        innerDivStartTitle.id = 'startDivInnerTitle';
+        let startMenuText = document.createTextNode("PRESS SPACE TO START");
+        innerDivStartTitle.appendChild(startMenuText);
+
+        this.startInfoDiv.appendChild(innerDivStartTitle);
 
 
 
     }
 
     switchPauseMenu(){
-        console.log(this.parentDiv);
-        if(this.pauseMenuDisplayed){
-            // stop displaying
-            this.parentDiv.removeChild(this.pauseMenuDiv);
-            this.pauseMenuDisplayed = false;
-        }else{
-            // display menu
-            this.parentDiv.insertBefore(this.pauseMenuDiv, document.getElementById('speedParentDiv'))  
-            this.pauseMenuDisplayed = true;
-        }
-
+        this.pauseMenuDisplayed ? this.removePauseInfo() : this.displayPauseInfo();
     }
 
     displayPauseInfo(){
@@ -53,5 +49,19 @@ export class UI{
     removePauseInfo(){
         this.parentDiv.removeChild(this.pauseMenuDiv);
         this.pauseMenuDisplayed = false;
+    }
+
+    switchStartInfo(){
+        this.startInfoDisplayed ? this.removeStartInfo() : this.displayStartInfo();
+    }
+
+    displayStartInfo(){
+        this.parentDiv.insertBefore(this.startInfoDiv, document.getElementById('speedParentDiv'));
+        this.startInfoDisplayed = true;
+    }
+
+    removeStartInfo(){
+        this.parentDiv.removeChild(this.startInfoDiv);
+        this.startInfoDisplayed = false;
     }
 }

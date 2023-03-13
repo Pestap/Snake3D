@@ -23,7 +23,7 @@ canvas{
   border-bottom: 1px solid white;
 }
 
-#scoreParentDiv, #speedParentDiv, #pauseDiv{
+#scoreParentDiv, #speedParentDiv, #pauseDiv, #startDiv {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -54,5 +54,24 @@ canvas{
 
 #pauseDivInnerText{
   background-color: #ff2121;
+  color: #404040;
+}
+
+#startDiv {
+  background-color: #00cc00;
+  opacity: 0.66;
+  border-radius: 2%;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #009900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding:10px;
+}
+
+#startDivInnerTitle {
+  background-color: #00cc00;
   color: #404040;
 }

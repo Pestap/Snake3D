@@ -59,7 +59,12 @@ export class World{
             }else if(e.key === 'c'){
                 this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
             }else if(e.key == ' '){
-                this.#loop.toggle();
+                if(this.ui.startInfoDisplayed){
+                    this.ui.removeStartInfo();
+                    this.#loop.start();
+                }else{
+                    this.#loop.toggle();
+                }
             }
         });
 
@@ -256,7 +261,7 @@ export class World{
     render(){
         this.#renderer.render();
     }
-    
+
     start(){
         // initialize game
         const ambientLight = new THREE.AmbientLight(0xffffff);
@@ -277,7 +282,7 @@ export class World{
 
         this.initWallHelpers()
 
-        this.#loop.start();
+        this.#loop.init();
     }
 
     restart(){
