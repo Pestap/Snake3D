@@ -20,10 +20,11 @@ canvas{
   display: flex;
   justify-content: space-between;
   align-content: center;
+  border-bottom: 1px solid white;
 }
 
 #scoreParentDiv, #speedParentDiv, #pauseDiv{
-  width: 30%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
