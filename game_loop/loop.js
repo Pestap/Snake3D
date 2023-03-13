@@ -23,18 +23,13 @@ export class Loop {
 
     }
     stop() {
-        console.log("STOPPED");
         this.renderer.setAnimationLoop(null);
         this.going = false;
         counter = 0;
     }
 
     toggle(){
-        if(this.going){
-            this.stop();
-        }else{
-            this.start();
-        }
+        this.going ? this.stop() : this.start();
     }
     tick(){
         if(counter % this.world.interval === 0){
