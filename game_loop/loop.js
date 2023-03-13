@@ -6,11 +6,12 @@ export class Loop {
         this.renderer = renderer;
         this.controls = controls;
         this.world = world;
+        this.going = false;
     }
 
     start() {
         counter = 0;
-        
+        this.going = true;
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
@@ -24,7 +25,16 @@ export class Loop {
     stop() {
         console.log("STOPPED");
         this.renderer.setAnimationLoop(null);
+        this.going = false;
         counter = 0;
+    }
+
+    toggle(){
+        if(this.going){
+            this.stop();
+        }else{
+            this.start();
+        }
     }
     tick(){
         if(counter % this.world.interval === 0){

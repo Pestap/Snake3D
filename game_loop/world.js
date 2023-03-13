@@ -59,7 +59,7 @@ export class World{
             }else if(e.key === 'c'){
                 this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
             }else if(e.key == 'b'){
-                this.#loop.stop();
+                this.#loop.toggle();
                 this.ui.switchPauseMenu();
             }
 
