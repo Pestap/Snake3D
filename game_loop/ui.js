@@ -5,7 +5,7 @@ export class UI{
 
     constructor(){
         this.pauseMenuDisplayed = false;
-        this.parentDiv = document.getElementsByTagName('body')[0];
+        this.parentDiv = document.getElementById('ui');
         console.log(this.parentDiv);
         // create menu div and append
         this.pauseMenuDiv = document.createElement('div');
@@ -18,14 +18,14 @@ export class UI{
 
         // create subtext div in pause menu
 
-        let innerDivText = document.createElement('div')
+        /*let innerDivText = document.createElement('div')
         innerDivText.id = 'pauseDivInnerText'
         let innerDivTextTextnode = document.createTextNode("Press space to continue");
-        innerDivText.appendChild(innerDivTextTextnode);
+        innerDivText.appendChild(innerDivTextTextnode);*/
 
         // append inner div to main
         this.pauseMenuDiv.appendChild(innerDivTitle);
-        this.pauseMenuDiv.appendChild(innerDivText);
+        //this.pauseMenuDiv.appendChild(innerDivText);
 
 
 
@@ -39,7 +39,7 @@ export class UI{
             this.pauseMenuDisplayed = false;
         }else{
             // display menu
-            this.parentDiv.appendChild(this.pauseMenuDiv);
+            this.parentDiv.insertBefore(this.pauseMenuDiv, document.getElementById('speedParentDiv'))  
             this.pauseMenuDisplayed = true;
         }
 
