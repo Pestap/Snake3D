@@ -6,7 +6,7 @@ export class UI{
     constructor(){
         this.pauseMenuDisplayed = false;
         this.parentDiv = document.getElementById('ui');
-        console.log(this.parentDiv);
+
         // create menu div and append
         this.pauseMenuDiv = document.createElement('div');
         this.pauseMenuDiv.id = 'pauseDiv';
@@ -43,5 +43,15 @@ export class UI{
             this.pauseMenuDisplayed = true;
         }
 
+    }
+
+    displayPauseInfo(){
+        this.parentDiv.insertBefore(this.pauseMenuDiv, document.getElementById('speedParentDiv'))  
+        this.pauseMenuDisplayed = true;
+    }
+
+    removePauseInfo(){
+        this.parentDiv.removeChild(this.pauseMenuDiv);
+        this.pauseMenuDisplayed = false;
     }
 }

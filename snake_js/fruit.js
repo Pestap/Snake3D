@@ -54,11 +54,13 @@ export class Fruit{
     remove_helper(scene, axis){
         scene.remove(this.helpers[axis]);
     }
+    
     remove_all_helpers(scene){
         this.remove_helper(scene, 'x');
         this.remove_helper(scene, 'y');
         this.remove_helper(scene, 'z');
     }
+
     setPosition(vector){
         this.cube.position.set(vector.x, vector.y, vector.z);   
     }

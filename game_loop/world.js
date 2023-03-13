@@ -60,9 +60,7 @@ export class World{
                 this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
             }else if(e.key == ' '){
                 this.#loop.toggle();
-                this.ui.switchPauseMenu();
             }
-
         });
 
         document.addEventListener('keyup', (e) => {
@@ -101,8 +99,10 @@ export class World{
         let camera_z = snake_head_position.z;
 
         let new_camera_position = new THREE.Vector3(camera_x, camera_y, camera_z);
-        this.#camera.position.lerp(new_camera_position, 0.1);
+       // this.#camera.position.lerp(new_camera_position, 0.1);
+        this.#camera.position.lookAt = new_camera_position;
     }
+
     checkForCollisionsWithFruits(){        
         for(let i =0; i< this.fruits.length; i++){
             if(this.fruits.at(i).getPosition().equals(this.snake.part_list.at(0).getPosition())){
@@ -170,6 +170,7 @@ export class World{
             }
         })
     }
+
     initWallHelpers(){
         // initialize walls
         let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.2, transparent: true}); // create transparent material
@@ -255,6 +256,7 @@ export class World{
     render(){
         this.#renderer.render();
     }
+    
     start(){
         // initialize game
         const ambientLight = new THREE.AmbientLight(0xffffff);
@@ -287,6 +289,7 @@ export class World{
 
         this.fruits = [];
         this.start()
+        
     }
 
     stop(){

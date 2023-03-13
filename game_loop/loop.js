@@ -12,6 +12,7 @@ export class Loop {
     start() {
         counter = 0;
         this.going = true;
+        
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
@@ -25,6 +26,7 @@ export class Loop {
 
     // without animation blocking
     soft_stop() {
+
         this.renderer.setAnimationLoop(() => {
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
@@ -35,6 +37,7 @@ export class Loop {
         this.going = false;
         counter = 0;
     }
+
     // with animation blocking
     hard_stop() {
         this.renderer.setAnimationLoop(null);
@@ -44,8 +47,15 @@ export class Loop {
 
 
     toggle(){
-        this.going ? this.soft_stop() : this.start();
+        if(this.going){
+            this.soft_stop();
+            this.world.ui.displayPauseInfo();
+        }else{
+            this.start();
+            this.world.ui.removePauseInfo()
+        }
     }
+
     tick(){
         if(counter % this.world.interval === 0){
             // snake movement
@@ -56,7 +66,7 @@ export class Loop {
             this.world.checkForCollisionsWithFruits();
             //check if collision inside snake
             this.world.checkForSnakeCollisions();
-            //check for wall proximity (TODO)
+            //check for wall proximity
             this.world.checkForWallProximity();
             counter = 0;
         }
