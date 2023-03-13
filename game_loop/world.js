@@ -270,6 +270,7 @@ export class World{
         this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
 
         // initialize UI
+        this.#loop.init();
         let score_span = document.getElementById('score');
         score_span.innerText = this.snake.size-1;
 
@@ -282,7 +283,7 @@ export class World{
 
         this.initWallHelpers()
 
-        this.#loop.init();
+        
     }
 
     restart(){

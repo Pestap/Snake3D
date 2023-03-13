@@ -3,9 +3,14 @@ export class UI{
     startInfoDisplayed;
     pauseMenuDiv;
     startInfoDiv;
+    scoreDiv;
+    speedDiv;
     parentDiv;
 
     constructor(){
+        this.parentDiv = document.getElementById('ui');
+        this.createScoreInfo();
+        this.createSpeedInfo();
         this.createPauseInfo();
         this.createStartInfo();
         
@@ -13,7 +18,7 @@ export class UI{
 
     createPauseInfo(){
         this.pauseMenuDisplayed = false;
-        this.parentDiv = document.getElementById('ui');
+
 
         // create menu div and append
         this.pauseMenuDiv = document.createElement('div');
@@ -42,6 +47,48 @@ export class UI{
         innerDivStartTitle.appendChild(startMenuText);
 
         this.startInfoDiv.appendChild(innerDivStartTitle);
+    }
+
+    createScoreInfo(){
+        this.scoreDiv = document.createElement('div');
+        this.scoreDiv.id = "scoreParentDiv";
+
+        let innerScoreDiv = document.createElement('div');
+
+        let textNode1 = document.createTextNode("Score: ");
+        innerScoreDiv.appendChild(textNode1);
+
+        let span = document.createElement('span');
+        span.id = 'score';
+        innerScoreDiv.appendChild(span);
+
+        this.scoreDiv.appendChild(innerScoreDiv);
+
+        this.parentDiv.appendChild(this.scoreDiv);
+
+    }
+
+    createSpeedInfo(){
+        this.speedDiv = document.createElement('div');
+        this.speedDiv.id = "speedParentDiv";
+
+        let innerSpeedDiv = document.createElement('div');
+
+        let textNode1 = document.createTextNode("Speed: ");
+        innerSpeedDiv.appendChild(textNode1);
+
+        let span = document.createElement('span');
+        span.id = 'speed';
+        innerSpeedDiv.appendChild(span);
+
+        let textNode2 = document.createTextNode(" ticks/s");
+        innerSpeedDiv.appendChild(textNode2);
+
+        this.speedDiv.appendChild(innerSpeedDiv);
+
+
+
+        this.parentDiv.appendChild(this.speedDiv);
     }
 
     switchPauseMenu(){
