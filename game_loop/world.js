@@ -293,7 +293,7 @@ export class World{
         }
 
         this.fruits = [];
-        this.start()
+        this.start();
         
     }
 
