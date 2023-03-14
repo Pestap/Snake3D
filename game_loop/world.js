@@ -274,6 +274,11 @@ export class World{
         let score_span = document.getElementById('score');
         score_span.innerText = this.snake.size-1;
 
+        let highscore_span = document.getElementById('highscore');
+        if(localStorage.getItem('highscore') !== null){
+            highscore_span.innerText = localStorage.getItem('highscore');
+        }
+
         this.box = new Box(50);
         this.box.draw(this.#scene);
         this.snake.draw(this.#scene);
@@ -285,15 +290,31 @@ export class World{
 
         
     }
-
+    // called when game is lost and restarted
     restart(){
+
+        // reset the game
         this.interval = 30;
         const iterations = this.#scene.children.length;
         for(let i =0; i<iterations; i++){
             this.#scene.remove(this.#scene.children.at(0));
         }
-
         this.fruits = [];
+        
+        // save high score
+
+        let highscore = localStorage.getItem('highscore');
+
+        if(highscore === null){
+            console.log(this.snake.size-1)
+            localStorage.setItem('highscore', this.snake.size-1);
+        }else{
+            if(highscore < this.snake.size-1){
+                localStorage.setItem('highscore', this.snake.size-1);
+            }
+        }
+
+
         this.start();
         
     }
