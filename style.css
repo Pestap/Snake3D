@@ -15,7 +15,7 @@ canvas{
 #ui{
   background-color: black;
   color: whitesmoke;
-  padding: 20px;
+  padding: 10px;
   font-size: 24px;
   display: flex;
   flex: 1;
@@ -32,6 +32,16 @@ canvas{
   align-content: space-between;
   align-items: center;
   padding: 15px;
+}
+
+#scoreParentDiv{
+  font-size: 24px;
+  padding: 0;
+}
+
+#highScoreDiv{
+  font-size: 14px;
+  color: #bfbfbf;
 }
 
 #pauseDiv {

@@ -11,7 +11,7 @@ export class UI{
 
     constructor(){
         this.parentDiv = document.getElementById('ui');
-        this.createLoginDiv();
+        //this.createLoginDiv();
         this.createScoreInfo();
         this.createSpeedInfo();
         this.createPauseInfo();
@@ -56,6 +56,7 @@ export class UI{
         this.scoreDiv = document.createElement('div');
         this.scoreDiv.id = "scoreParentDiv";
 
+        // create current score div
         let innerScoreDiv = document.createElement('div');
 
         let textNode1 = document.createTextNode("Score: ");
@@ -66,6 +67,18 @@ export class UI{
         innerScoreDiv.appendChild(span);
 
         this.scoreDiv.appendChild(innerScoreDiv);
+        // create high score span
+
+        let highScoreDiv = document.createElement('div');
+        highScoreDiv.id = 'highScoreDiv';
+        let textNode3 = document.createTextNode("High score: ");
+        highScoreDiv.appendChild(textNode3);
+        
+        let span2 = document.createElement('span');
+        span2.id = 'highscore';
+        highScoreDiv.appendChild(span2);
+
+        this.scoreDiv.appendChild(highScoreDiv);
 
         this.parentDiv.appendChild(this.scoreDiv);
 
