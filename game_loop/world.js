@@ -59,10 +59,13 @@ export class World{
             }else if(e.key === 'c'){
                 this.fruits.at(0).draw_helper(this.#scene, 'z', 50);
             }else if(e.key == ' '){
-                this.#loop.toggle();
-                this.ui.switchPauseMenu();
+                if(this.ui.startInfoDisplayed){
+                    this.ui.removeStartInfo();
+                    this.#loop.start();
+                }else{
+                    this.#loop.toggle();
+                }
             }
-
         });
 
         document.addEventListener('keyup', (e) => {
@@ -101,8 +104,10 @@ export class World{
         let camera_z = snake_head_position.z;
 
         let new_camera_position = new THREE.Vector3(camera_x, camera_y, camera_z);
-        this.#camera.position.lerp(new_camera_position, 0.1);
+       // this.#camera.position.lerp(new_camera_position, 0.1);
+        this.#camera.position.lookAt = new_camera_position;
     }
+
     checkForCollisionsWithFruits(){        
         for(let i =0; i< this.fruits.length; i++){
             if(this.fruits.at(i).getPosition().equals(this.snake.part_list.at(0).getPosition())){
@@ -170,6 +175,7 @@ export class World{
             }
         })
     }
+
     initWallHelpers(){
         // initialize walls
         let material = new THREE.MeshPhongMaterial({color: 0x0000ff, opacity: 0.2, transparent: true}); // create transparent material
@@ -255,6 +261,7 @@ export class World{
     render(){
         this.#renderer.render();
     }
+
     start(){
         // initialize game
         const ambientLight = new THREE.AmbientLight(0xffffff);
@@ -263,8 +270,14 @@ export class World{
         this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
 
         // initialize UI
+        this.#loop.init();
         let score_span = document.getElementById('score');
         score_span.innerText = this.snake.size-1;
+
+        let highscore_span = document.getElementById('highscore');
+        if(localStorage.getItem('highscore') !== null){
+            highscore_span.innerText = localStorage.getItem('highscore');
+        }
 
         this.box = new Box(50);
         this.box.draw(this.#scene);
@@ -275,18 +288,35 @@ export class World{
 
         this.initWallHelpers()
 
-        this.#loop.start();
+        
     }
-
+    // called when game is lost and restarted
     restart(){
+
+        // reset the game
         this.interval = 30;
         const iterations = this.#scene.children.length;
         for(let i =0; i<iterations; i++){
             this.#scene.remove(this.#scene.children.at(0));
         }
-
         this.fruits = [];
-        this.start()
+        
+        // save high score
+
+        let highscore = localStorage.getItem('highscore');
+
+        if(highscore === null){
+            console.log(this.snake.size-1)
+            localStorage.setItem('highscore', this.snake.size-1);
+        }else{
+            if(highscore < this.snake.size-1){
+                localStorage.setItem('highscore', this.snake.size-1);
+            }
+        }
+
+
+        this.start();
+        
     }
 
     stop(){
