@@ -188,4 +188,29 @@ export class UI{
         this.parentDiv.removeChild(this.startInfoDiv);
         this.startInfoDisplayed = false;
     }
+
+    initValues(){
+        let score_span = document.getElementById('score');
+        score_span.innerText = this.snake.size-1;
+
+        let highscore_span = document.getElementById('highscore');
+        if(localStorage.getItem('highscore') !== null){
+            highscore_span.innerText = localStorage.getItem('highscore');
+        }
+    }
+
+    // TODO: check if below functions work
+
+    updateScore(new_value){
+        let score_span = document.getElementById('score');
+        score_span.innerText = new_value;
+    }
+    updateSpeed(new_value){
+        let speed_span = document.getElementById('speed');
+        speed_span.innerText = new_value;
+    }
+    updateHighScore(new_value){
+        let hscore_span = document.getElementById('highscore');
+        hscore_span.innerText = new_value;
+    }
 }
