@@ -14,6 +14,8 @@ export class Fruit{
         this.init_helpers(box_size);
     }
 
+
+    //some comment to test
     draw(scene){
         scene.add(this.cube);
     }
