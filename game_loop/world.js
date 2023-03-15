@@ -118,7 +118,7 @@ export class World{
                 this.fruits.splice(i,1);
 
                 //speed the game up
-                if(this.snake.size % 5 == 0){
+                if(this.snake.size % 2 == 0){
                     this.interval -= 1;
                 }
                 
