@@ -46,12 +46,8 @@ export class World{
 
         // key mapping
         document.addEventListener('keypress', (e) => {
-            if(e.key === 'b'){
-                this.rotate_camera_behind();
-            }else if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's' || e.key === 'q' || e.key === 'e'){
+            if(e.key === 'a' || e.key === 'd' || e.key === 'w' || e.key === 's' || e.key === 'q' || e.key === 'e'){
               this.snake.turn(e.key);
-            }else if(e.key === 'p'){
-              this.#camera.position.lerp(new THREE.Vector3(100,100,100), 0.1);
             }else if(e.key === 'z'){
                 this.fruits.at(0).draw_helper(this.#scene, 'x', 50);
             }else if(e.key === 'x'){
@@ -95,6 +91,8 @@ export class World{
         
     }
 
+
+    // TODO: needs more work
     rotate_camera_behind(){
         // TODO: Rotate around current position by given angle (depending on movment direction)
         // holding space bar allows to reset camera to behind
@@ -122,11 +120,9 @@ export class World{
                     this.interval -= 1;
                 }
                 
-                // TODO: maybe move to ui.js 
                 // update score
-                let score_span = document.getElementById('score');
-                // fruits eaten
-                score_span.textContent = this.snake.size-1;
+
+                this.ui.updateScore(this.snake.size-1);
 
                 // place new fruit
                 // ranodmize coords until valid:
@@ -270,15 +266,12 @@ export class World{
 
         this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
 
-        // initialize UI // TODO: move to ui.js
+        // initialize game loop
         this.#loop.init();
-        let score_span = document.getElementById('score');
-        score_span.innerText = this.snake.size-1;
 
-        let highscore_span = document.getElementById('highscore');
-        if(localStorage.getItem('highscore') !== null){
-            highscore_span.innerText = localStorage.getItem('highscore');
-        }
+        //initialize UI
+        this.ui.updateScore(this.snake.size-1);
+        this.ui.updateHighScore(localStorage.getItem('highscore'))
 
         this.box = new Box(50);
         this.box.draw(this.#scene);

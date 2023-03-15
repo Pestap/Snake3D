@@ -199,8 +199,6 @@ export class UI{
         }
     }
 
-    // TODO: check if below functions work
-
     updateScore(new_value){
         let score_span = document.getElementById('score');
         score_span.innerText = new_value;
