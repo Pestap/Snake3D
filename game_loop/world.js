@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
-import { ArcballControls } from 'three/examples/jsm/controls/ArcballControls';
 import { Loop } from './loop.js';
 import { Snake } from '../snake_js/snake.js';
 import { Box } from '../snake_js/box.js';
