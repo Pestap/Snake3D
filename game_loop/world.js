@@ -118,10 +118,11 @@ export class World{
                 this.fruits.splice(i,1);
 
                 //speed the game up
-                if(this.snake.size % 5 == 0){
+                if(this.snake.size % 2 == 0){
                     this.interval -= 1;
                 }
                 
+                // TODO: maybe move to ui.js 
                 // update score
                 let score_span = document.getElementById('score');
                 // fruits eaten
@@ -269,7 +270,7 @@ export class World{
 
         this.snake = new Snake(new THREE.Vector3( 0, 0, 0 ),1);
 
-        // initialize UI
+        // initialize UI // TODO: move to ui.js
         this.#loop.init();
         let score_span = document.getElementById('score');
         score_span.innerText = this.snake.size-1;
