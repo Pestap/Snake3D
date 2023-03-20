@@ -42,6 +42,10 @@ which indicates the position of the fruit in one of 3 axes (each one of the cont
 
 The game was implemented using JavaScript with Three.js library used for 3D rendering.
 
+## GitHub Pages
+
+Currently not working :(
+
 ## Future ideas for the project:
 
 I hope to implement a backend server, which will allow users to create accounts and share their scores and compete with friends.
