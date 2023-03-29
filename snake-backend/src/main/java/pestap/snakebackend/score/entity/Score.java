@@ -1,6 +1,8 @@
 package pestap.snakebackend.score.entity;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.*;
 import pestap.snakebackend.player.entity.Player;
 
@@ -26,20 +28,20 @@ public class Score {
      * Particular score's unique ID
      */
     @Id
-    @Column(unique = true, name="id")
+    @Column(unique = true)
     private UUID id;
 
     /**
      * Score value
      */
-    @Column(name="value")
-    private int value;
+    @Column(name="scoreValue")
+    private int scoreValue;
 
     /**
      * date of achievment
      */
-    @Column(name="date")
-    private LocalDate date;
+    @Column(name="achieveDate")
+    private LocalDate achieveDate;
 
     /**
      * Player who achieved the score

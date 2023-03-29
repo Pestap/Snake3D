@@ -1,9 +1,9 @@
 package pestap.snakebackend.player.entity;
 
-
-
+import jakarta.persistence.Table;
 import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import pestap.snakebackend.score.entity.Score;
 
 import java.io.Serializable;

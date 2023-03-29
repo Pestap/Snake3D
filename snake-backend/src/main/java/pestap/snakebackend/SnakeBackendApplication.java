@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SnakeBackendApplication {
 
     public static void main(String[] args) {
+        System.out.println("SIEMA");
         SpringApplication.run(SnakeBackendApplication.class, args);
     }
 
