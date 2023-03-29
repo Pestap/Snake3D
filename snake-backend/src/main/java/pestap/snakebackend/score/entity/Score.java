@@ -4,6 +4,7 @@ package pestap.snakebackend.score.entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import pestap.snakebackend.player.entity.Player;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@SuperBuilder
 
 @Entity
 @Table(name="scores")

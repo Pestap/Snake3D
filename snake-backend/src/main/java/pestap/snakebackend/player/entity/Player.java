@@ -4,6 +4,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 import jakarta.persistence.*;
 
+import lombok.experimental.SuperBuilder;
 import pestap.snakebackend.score.entity.Score;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@SuperBuilder
 
 @Entity
 @Table(name="players")
