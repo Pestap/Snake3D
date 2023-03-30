@@ -37,12 +37,36 @@ public class Initializer {
                 .achieveDate(LocalDate.of(2023, 3, 12))
                 .player(p1)
                 .build();
+        Score s2 = Score.builder()
+                .id(UUID.randomUUID())
+                .scoreValue(1)
+                .achieveDate(LocalDate.of(2023, 3, 12))
+                .player(p1)
+                .build();
+        Score s3 = Score.builder()
+                .id(UUID.randomUUID())
+                .scoreValue(2)
+                .achieveDate(LocalDate.of(2023, 3, 12))
+                .player(p1)
+                .build();
+        Score s4 = Score.builder()
+                .id(UUID.randomUUID())
+                .scoreValue(3)
+                .achieveDate(LocalDate.of(2023, 3, 12))
+                .player(p1)
+                .build();
 
 
 
         playerService.createPlayer(p1);
         p1.getScoreList().add(s1);
+        p1.getScoreList().add(s2);
+        p1.getScoreList().add(s3);
+        p1.getScoreList().add(s4);
         scoreService.createScore(s1);
+        scoreService.createScore(s2);
+        scoreService.createScore(s3);
+        scoreService.createScore(s4);
 
     }
 }

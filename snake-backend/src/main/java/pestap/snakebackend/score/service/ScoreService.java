@@ -8,9 +8,7 @@ import pestap.snakebackend.player.entity.Player;
 import pestap.snakebackend.score.entity.Score;
 import pestap.snakebackend.score.repository.ScoreRepository;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ScoreService {
@@ -41,6 +39,16 @@ public class ScoreService {
 
         return Optional.empty();
 
+    }
+
+    public List<Score> findTop(int number){
+        ArrayList<Score> scores = new ArrayList<>(scoreRepository.findAll());
+        Collections.sort(scores, (s1, s2) -> {
+            return s2.getScoreValue() - s1.getScoreValue();
+        });
+
+        List<Score> top_scores = scores.subList(0, number);
+        return top_scores;
     }
     @Transactional
     public Score createScore(Score score){
