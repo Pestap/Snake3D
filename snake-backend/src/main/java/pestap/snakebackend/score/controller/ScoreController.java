@@ -22,7 +22,7 @@ public class ScoreController {
     }
 
     @GetMapping("/top/{number}")
-    public ResponseEntity<GetScoresResponse> getTopScores(@PathVariable("number") int number){
+    public ResponseEntity<GetScoresResponse> getTopScores(@PathVariable("number") int number) {
         return ResponseEntity.ok(GetScoresResponse.entityToDtoMapper().apply(scoreService.findTop(number)));
     }
 }

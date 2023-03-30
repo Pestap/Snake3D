@@ -25,7 +25,7 @@ public class GetScoresResponse {
     @ToString
     @EqualsAndHashCode
     /**
-     * Static class for license entry in GET response
+     * Static class for score entry in GET response
      */
     public static class ScoreEntry{
         private UUID id;

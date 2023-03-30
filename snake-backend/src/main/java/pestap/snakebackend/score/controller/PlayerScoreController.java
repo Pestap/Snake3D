@@ -3,13 +3,13 @@ package pestap.snakebackend.score.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import pestap.snakebackend.player.entity.Player;
 import pestap.snakebackend.player.service.PlayerService;
+import pestap.snakebackend.score.dto.CreateScoreRequest;
 import pestap.snakebackend.score.dto.GetScoreResponse;
+import pestap.snakebackend.score.entity.Score;
 import pestap.snakebackend.score.service.ScoreService;
 
 import java.util.Optional;
@@ -34,5 +34,23 @@ public class PlayerScoreController {
                         .ok(GetScoreResponse.entityToDtoMapper()
                             .apply(scoreService.findUserHighscore(foundPlayer).get())))
                         .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @PostMapping
+    public ResponseEntity<Void> createScore(@PathVariable("playerUsername") String username,
+                                            @RequestBody CreateScoreRequest request,
+                                            UriComponentsBuilder builder){
+        Optional<Player> player = playerService.find(username);
+
+        if(player.isPresent()){
+            Score scoreToAdd = CreateScoreRequest
+                    .dtoToEntityMapper(playerUsername -> playerService.find(username).orElseThrow())
+                    .apply(request);
+            Score addedScore = scoreService.createScore(scoreToAdd);
+
+            return ResponseEntity.created(builder.pathSegment("api", "players", "{username}", "scores", "{scoreId}")
+                    .buildAndExpand(player.get().getUsername(), addedScore.getId()).toUri()).build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }
