@@ -294,6 +294,7 @@ export class World{
         this.fruits = [];
         
         // save high score
+        // TODO: module for communication with backend
 
         let highscore = localStorage.getItem('highscore');
 
