@@ -2,10 +2,8 @@ package pestap.snakebackend.player.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import pestap.snakebackend.player.dto.GetPlayerResponse;
 import pestap.snakebackend.player.service.PlayerService;
 
@@ -26,6 +24,13 @@ public class PlayerController {
                         .ok(GetPlayerResponse
                         .entityToDtoMapper().apply(player)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createPlayer(@RequestBody CreatePlayerRequest request, UriComponentsBuilder builder){
+
+
+
     }
 
 
