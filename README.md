@@ -40,7 +40,7 @@ which indicates the position of the fruit in one of 3 axes (each one of the cont
 
 ## Technologies used
 
-The game was implemented using JavaScript with Three.js library used for 3D rendering.
+The application frontend was implemented using JavaScript with Three.js library used for 3D rendering. The backend is currently being worked on and the main technology used in it's development is Java Spring framework.
 
 ## GitHub Pages
 
