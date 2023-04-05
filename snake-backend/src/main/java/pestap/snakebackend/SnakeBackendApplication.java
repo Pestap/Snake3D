@@ -11,4 +11,5 @@ public class SnakeBackendApplication {
         SpringApplication.run(SnakeBackendApplication.class, args);
     }
 
+    // TODO: add cors web filter
 }

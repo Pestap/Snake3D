@@ -1,6 +1,7 @@
 package pestap.snakebackend.player.dto;
 
 import lombok.*;
+
 import pestap.snakebackend.player.entity.Player;
 import pestap.snakebackend.score.entity.Score;
 
